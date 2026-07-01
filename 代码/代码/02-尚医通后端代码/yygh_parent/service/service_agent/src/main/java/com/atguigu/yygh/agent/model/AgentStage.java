@@ -1,0 +1,12 @@
+package com.atguigu.yygh.agent.model;
+
+public enum AgentStage {
+    SYMPTOM_COLLECTING,
+    DEPARTMENT_RECOMMENDING,
+    BOOKING_SEARCHING,
+    BOOKING_CONFIRMING,
+    ORDER_SUBMITTING,
+    PAYMENT_GUIDING,
+    VISIT_GUIDING,
+    EMERGENCY_GUIDING
+}
