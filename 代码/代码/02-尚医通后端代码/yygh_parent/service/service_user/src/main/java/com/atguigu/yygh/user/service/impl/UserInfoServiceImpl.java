@@ -9,7 +9,11 @@ import com.atguigu.yygh.model.user.UserInfo;
 import com.atguigu.yygh.user.mapper.UserInfoMapper;
 import com.atguigu.yygh.user.service.PatientService;
 import com.atguigu.yygh.user.service.UserInfoService;
+import com.atguigu.yygh.vo.user.ChangePasswordVo;
 import com.atguigu.yygh.vo.user.LoginVo;
+import com.atguigu.yygh.vo.user.PasswordLoginVo;
+import com.atguigu.yygh.vo.user.RefreshTokenVo;
+import com.atguigu.yygh.vo.user.ResetPasswordVo;
 import com.atguigu.yygh.vo.user.UserAuthVo;
 import com.atguigu.yygh.vo.user.UserInfoQueryVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -21,10 +25,15 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 @Service
@@ -34,6 +43,11 @@ public class UserInfoServiceImpl  extends
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
     private static final String EMAIL_CODE_KEY_PREFIX = "login:email-code:";
+    private static final String REFRESH_TOKEN_KEY_PREFIX = "auth:refresh-token:";
+    private static final int PASSWORD_SALT_BYTES = 16;
+    private static final int PASSWORD_ITERATIONS = 120000;
+    private static final int PASSWORD_KEY_BITS = 256;
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
 
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
@@ -92,8 +106,15 @@ public class UserInfoServiceImpl  extends
                 userInfo.setName(phone.contains("@") ? buildEmailNickName(phone) : "");
                 userInfo.setNickName(phone.contains("@") ? buildEmailNickName(phone) : "");
                 userInfo.setPhone(loginKey);
+                if(phone.contains("@")) {
+                    userInfo.setEmail(phone);
+                }
                 userInfo.setStatus(1);
+                userInfo.setRefreshTokenVersion(0);
                 baseMapper.insert(userInfo);
+            } else if(phone.contains("@") && StringUtils.isEmpty(userInfo.getEmail())) {
+                userInfo.setEmail(phone);
+                baseMapper.updateById(userInfo);
             }
         }
 
@@ -110,6 +131,118 @@ public class UserInfoServiceImpl  extends
         //返回登录信息
         //返回登录用户名
         //返回token信息
+        Map<String, Object> map = buildLoginResponse(userInfo, phone.contains("@") ? phone : null);
+        redisTemplate.delete(codeKey);
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> passwordLogin(PasswordLoginVo loginVo) {
+        if(loginVo == null) {
+            throw new YyghException(ResultCodeEnum.PARAM_ERROR);
+        }
+        String email = normalizeEmail(loginVo.getEmail());
+        String password = loginVo.getPassword();
+        if(!isValidEmail(email) || StringUtils.isEmpty(password)) {
+            throw new YyghException(ResultCodeEnum.PARAM_ERROR);
+        }
+
+        UserInfo userInfo = findByEmail(email);
+        if(userInfo == null || StringUtils.isEmpty(userInfo.getPasswordHash())
+                || !verifyPassword(password, userInfo.getPasswordHash())) {
+            throw new YyghException(ResultCodeEnum.DATA_ERROR);
+        }
+        if(userInfo.getStatus() == 0) {
+            throw new YyghException(ResultCodeEnum.LOGIN_DISABLED_ERROR);
+        }
+
+        String name = StringUtils.isEmpty(userInfo.getName()) ? email : userInfo.getName();
+        return buildLoginResponse(userInfo, name);
+    }
+
+    @Override
+    public Map<String, Object> refreshToken(RefreshTokenVo refreshTokenVo) {
+        if(refreshTokenVo == null || StringUtils.isEmpty(refreshTokenVo.getRefreshToken())) {
+            throw new YyghException(ResultCodeEnum.PARAM_ERROR);
+        }
+        String refreshToken = refreshTokenVo.getRefreshToken();
+        if(!"refresh".equals(JwtHelper.getTokenType(refreshToken))) {
+            throw new YyghException(ResultCodeEnum.LOGIN_AUTH);
+        }
+        String redisKey = REFRESH_TOKEN_KEY_PREFIX + refreshToken;
+        String redisUserId = redisTemplate.opsForValue().get(redisKey);
+        Long userId = JwtHelper.getUserId(refreshToken);
+        if(StringUtils.isEmpty(redisUserId) || userId == null || !redisUserId.equals(String.valueOf(userId))) {
+            throw new YyghException(ResultCodeEnum.LOGIN_AUTH);
+        }
+
+        UserInfo userInfo = baseMapper.selectById(userId);
+        if(userInfo == null || userInfo.getStatus() == 0) {
+            throw new YyghException(ResultCodeEnum.LOGIN_AUTH);
+        }
+        Integer tokenVersion = JwtHelper.getTokenVersion(refreshToken);
+        if(tokenVersion != null && userInfo.getRefreshTokenVersion() != null
+                && !tokenVersion.equals(userInfo.getRefreshTokenVersion())) {
+            throw new YyghException(ResultCodeEnum.LOGIN_AUTH);
+        }
+
+        String name = StringUtils.isEmpty(userInfo.getEmail()) ? userInfo.getPhone() : userInfo.getEmail();
+        return buildLoginResponse(userInfo, name);
+    }
+
+    @Override
+    public void resetPassword(ResetPasswordVo resetPasswordVo) {
+        if(resetPasswordVo == null) {
+            throw new YyghException(ResultCodeEnum.PARAM_ERROR);
+        }
+        String email = normalizeEmail(resetPasswordVo.getEmail());
+        String code = resetPasswordVo.getCode();
+        String newPassword = resetPasswordVo.getNewPassword();
+        if(!isValidEmail(email) || StringUtils.isEmpty(code) || !isValidPassword(newPassword)) {
+            throw new YyghException(ResultCodeEnum.PARAM_ERROR);
+        }
+        String codeKey = buildEmailCodeKey(email);
+        String redisCode = redisTemplate.opsForValue().get(codeKey);
+        if(StringUtils.isEmpty(redisCode) || !code.equals(redisCode)) {
+            throw new YyghException(ResultCodeEnum.CODE_ERROR);
+        }
+
+        UserInfo userInfo = findByEmail(email);
+        if(userInfo == null) {
+            userInfo = new UserInfo();
+            userInfo.setEmail(email);
+            userInfo.setPhone(buildLoginKey(email));
+            userInfo.setName(buildEmailNickName(email));
+            userInfo.setNickName(buildEmailNickName(email));
+            userInfo.setStatus(1);
+            userInfo.setRefreshTokenVersion(0);
+            baseMapper.insert(userInfo);
+        }
+        userInfo.setPasswordHash(hashPassword(newPassword));
+        userInfo.setRefreshTokenVersion(nextRefreshTokenVersion(userInfo));
+        baseMapper.updateById(userInfo);
+        redisTemplate.delete(codeKey);
+    }
+
+    @Override
+    public void changePassword(Long userId, ChangePasswordVo changePasswordVo) {
+        if(userId == null || changePasswordVo == null || !isValidPassword(changePasswordVo.getNewPassword())) {
+            throw new YyghException(ResultCodeEnum.PARAM_ERROR);
+        }
+        UserInfo userInfo = baseMapper.selectById(userId);
+        if(userInfo == null) {
+            throw new YyghException(ResultCodeEnum.DATA_ERROR);
+        }
+        if(!StringUtils.isEmpty(userInfo.getPasswordHash())
+                && !verifyPassword(changePasswordVo.getOldPassword(), userInfo.getPasswordHash())) {
+            throw new YyghException(ResultCodeEnum.DATA_ERROR);
+        }
+        userInfo.setPasswordHash(hashPassword(changePasswordVo.getNewPassword()));
+        userInfo.setRefreshTokenVersion(nextRefreshTokenVersion(userInfo));
+        baseMapper.updateById(userInfo);
+    }
+
+    private Map<String, Object> buildLoginResponse(UserInfo userInfo, String displayName) {
         Map<String, Object> map = new HashMap<>();
         String name = userInfo.getName();
         if(StringUtils.isEmpty(name)) {
@@ -118,16 +251,92 @@ public class UserInfoServiceImpl  extends
         if(StringUtils.isEmpty(name)) {
             name = userInfo.getPhone();
         }
-        if(phone.contains("@")) {
-            name = phone;
+        if(!StringUtils.isEmpty(displayName)) {
+            name = displayName;
         }
         map.put("name",name);
 
-        //jwt生成token字符串
         String token = JwtHelper.createToken(userInfo.getId(), name);
         map.put("token",token);
-        redisTemplate.delete(codeKey);
+        Integer tokenVersion = userInfo.getRefreshTokenVersion() == null ? 0 : userInfo.getRefreshTokenVersion();
+        String refreshToken = JwtHelper.createRefreshToken(userInfo.getId(), tokenVersion);
+        redisTemplate.opsForValue().set(REFRESH_TOKEN_KEY_PREFIX + refreshToken,
+                String.valueOf(userInfo.getId()), 14, TimeUnit.DAYS);
+        map.put("refreshToken", refreshToken);
+        map.put("userId", userInfo.getId());
+        if(!StringUtils.isEmpty(userInfo.getEmail())) {
+            map.put("email", userInfo.getEmail());
+        }
         return map;
+    }
+
+    private UserInfo findByEmail(String email) {
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper<>();
+        wrapper.eq("email", email);
+        UserInfo userInfo = baseMapper.selectOne(wrapper);
+        if(userInfo != null) {
+            return userInfo;
+        }
+        QueryWrapper<UserInfo> legacyWrapper = new QueryWrapper<>();
+        legacyWrapper.eq("phone", buildLoginKey(email));
+        return baseMapper.selectOne(legacyWrapper);
+    }
+
+    private int nextRefreshTokenVersion(UserInfo userInfo) {
+        return userInfo.getRefreshTokenVersion() == null ? 1 : userInfo.getRefreshTokenVersion() + 1;
+    }
+
+    private boolean isValidPassword(String password) {
+        return !StringUtils.isEmpty(password) && password.length() >= 8 && password.length() <= 72;
+    }
+
+    private String hashPassword(String password) {
+        try {
+            byte[] salt = new byte[PASSWORD_SALT_BYTES];
+            SECURE_RANDOM.nextBytes(salt);
+            byte[] hash = pbkdf2(password, salt, PASSWORD_ITERATIONS, PASSWORD_KEY_BITS);
+            return "pbkdf2$" + PASSWORD_ITERATIONS + "$"
+                    + Base64.getEncoder().encodeToString(salt) + "$"
+                    + Base64.getEncoder().encodeToString(hash);
+        } catch (Exception e) {
+            throw new YyghException(ResultCodeEnum.SERVICE_ERROR);
+        }
+    }
+
+    private boolean verifyPassword(String password, String encoded) {
+        if(StringUtils.isEmpty(password) || StringUtils.isEmpty(encoded)) {
+            return false;
+        }
+        try {
+            String[] parts = encoded.split("\\$");
+            if(parts.length != 4 || !"pbkdf2".equals(parts[0])) {
+                return false;
+            }
+            int iterations = Integer.parseInt(parts[1]);
+            byte[] salt = Base64.getDecoder().decode(parts[2]);
+            byte[] expected = Base64.getDecoder().decode(parts[3]);
+            byte[] actual = pbkdf2(password, salt, iterations, expected.length * 8);
+            return constantTimeEquals(expected, actual);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private byte[] pbkdf2(String password, byte[] salt, int iterations, int keyBits) throws Exception {
+        PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, keyBits);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        return skf.generateSecret(spec).getEncoded();
+    }
+
+    private boolean constantTimeEquals(byte[] expected, byte[] actual) {
+        if(expected == null || actual == null || expected.length != actual.length) {
+            return false;
+        }
+        int result = 0;
+        for(int i = 0; i < expected.length; i++) {
+            result |= expected[i] ^ actual[i];
+        }
+        return result == 0;
     }
 
     private void ensureDemoPatient(UserInfo userInfo) {

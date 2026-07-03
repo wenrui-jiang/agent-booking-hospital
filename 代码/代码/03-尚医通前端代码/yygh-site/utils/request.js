@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 import cookie from 'js-cookie'
 
 const service = axios.create({
-  baseURL: 'http://localhost',
+  baseURL: process.env.API_BASE_URL || '',
   timeout: 15000
 })
 
@@ -11,6 +11,7 @@ service.interceptors.request.use(
   config => {
     if (cookie.get('token')) {
       config.headers['token'] = cookie.get('token')
+      config.headers['Authorization'] = `Bearer ${cookie.get('token')}`
     }
     return config
   },

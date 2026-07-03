@@ -33,6 +33,18 @@ public class UserInfo extends BaseEntity {
 	@TableField("phone")
 	private String phone;
 
+	@ApiModelProperty(value = "邮箱")
+	@TableField("email")
+	private String email;
+
+	@ApiModelProperty(value = "密码哈希")
+	@TableField("password_hash")
+	private String passwordHash;
+
+	@ApiModelProperty(value = "刷新令牌版本")
+	@TableField("refresh_token_version")
+	private Integer refreshTokenVersion;
+
 	@ApiModelProperty(value = "用户姓名")
 	@TableField("name")
 	private String name;
@@ -58,4 +70,3 @@ public class UserInfo extends BaseEntity {
 	private Integer status;
 
 }
-

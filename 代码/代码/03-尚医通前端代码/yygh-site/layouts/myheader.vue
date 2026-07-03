@@ -66,8 +66,13 @@
         <div class="operate-view" v-if="dialogAtrr.showLoginType === 'email'">
           <div class="wrapper" style="width: 100%">
             <div class="mobile-wrapper" style="position: static;width: 70%">
+              <div class="auth-tabs">
+                <span :class="{ active: authMode === 'code' }" @click="switchAuthMode('code')">验证码登录</span>
+                <span :class="{ active: authMode === 'password' }" @click="switchAuthMode('password')">密码登录</span>
+                <span :class="{ active: authMode === 'reset' }" @click="switchAuthMode('reset')">忘记密码</span>
+              </div>
               <span class="title">{{ dialogAtrr.labelTips }}</span>
-              <el-form @submit.native.prevent>
+              <el-form v-if="authMode === 'code'" @submit.native.prevent>
                 <el-form-item>
                   <el-input
                     v-model.trim="dialogAtrr.inputValue"
@@ -81,7 +86,59 @@
                   </el-input>
                 </el-form-item>
               </el-form>
-              <div class="send-button v-button" @click="btnClick">{{ dialogAtrr.loginBtn }}</div>
+              <el-form v-else-if="authMode === 'password'" @submit.native.prevent>
+                <el-form-item>
+                  <el-input
+                    v-model.trim="passwordForm.email"
+                    placeholder="请输入邮箱地址"
+                    maxlength="80"
+                    class="input v-input"
+                    @keyup.enter.native="passwordLogin"
+                  />
+                </el-form-item>
+                <el-form-item>
+                  <el-input
+                    v-model="passwordForm.password"
+                    placeholder="请输入密码"
+                    show-password
+                    maxlength="72"
+                    class="input v-input"
+                    @keyup.enter.native="passwordLogin"
+                  />
+                </el-form-item>
+              </el-form>
+              <el-form v-else @submit.native.prevent>
+                <el-form-item>
+                  <el-input
+                    v-model.trim="resetForm.email"
+                    placeholder="请输入邮箱地址"
+                    maxlength="80"
+                    class="input v-input"
+                  >
+                    <span slot="suffix" class="sendText v-link" v-if="resetSecond > 0">{{ resetSecond }}s</span>
+                    <span slot="suffix" class="sendText v-link highlight clickable selected" v-if="resetSecond === 0" @click="sendResetCode">发送验证码</span>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input
+                    v-model.trim="resetForm.code"
+                    placeholder="请输入验证码"
+                    maxlength="6"
+                    class="input v-input"
+                  />
+                </el-form-item>
+                <el-form-item>
+                  <el-input
+                    v-model="resetForm.newPassword"
+                    placeholder="请输入新密码，至少 8 位"
+                    show-password
+                    maxlength="72"
+                    class="input v-input"
+                    @keyup.enter.native="resetPassword"
+                  />
+                </el-form-item>
+              </el-form>
+              <div class="send-button v-button" @click="btnClick">{{ currentAuthButton }}</div>
             </div>
             <div class="bottom">
               <div class="wechat-wrapper" @click="weixinLogin"><span class="iconfont icon">微</span></div>
@@ -161,6 +218,18 @@ export default {
         code: '',
         openid: ''
       },
+      authMode: 'code',
+      passwordForm: {
+        email: '',
+        password: ''
+      },
+      resetForm: {
+        email: '',
+        code: '',
+        newPassword: ''
+      },
+      resetSecond: 0,
+      clearResetTime: null,
       dialogUserFormVisible: false,
       dialogAtrr: createDefaultDialogAtrr(),
       clearSmsTime: null,
@@ -173,6 +242,16 @@ export default {
   computed: {
     isLoggedIn() {
       return this.clientReady && !!cookie.get('token')
+    },
+
+    currentAuthButton() {
+      if (this.authMode === 'password') {
+        return '登录'
+      }
+      if (this.authMode === 'reset') {
+        return '重置密码'
+      }
+      return this.dialogAtrr.loginBtn
     }
   },
 
@@ -237,6 +316,14 @@ export default {
     },
 
     btnClick() {
+      if (this.authMode === 'password') {
+        this.passwordLogin()
+        return
+      }
+      if (this.authMode === 'reset') {
+        this.resetPassword()
+        return
+      }
       if (this.dialogAtrr.step === LOGIN_STEP_ACCOUNT) {
         this.userInfo.email = this.normalizeEmail(this.dialogAtrr.inputValue)
         this.userInfo.phone = this.userInfo.email
@@ -248,10 +335,17 @@ export default {
 
     showLogin() {
       this.dialogUserFormVisible = true
+      this.authMode = 'code'
       this.dialogAtrr = createDefaultDialogAtrr()
       this.userInfo.email = ''
       this.userInfo.phone = ''
       this.userInfo.code = ''
+      this.passwordForm.email = ''
+      this.passwordForm.password = ''
+      this.resetForm.email = ''
+      this.resetForm.code = ''
+      this.resetForm.newPassword = ''
+      this.resetSecond = 0
     },
 
     login() {
@@ -275,14 +369,61 @@ export default {
       this.dialogAtrr.loginBtn = '正在提交...'
       userInfoApi.login(this.userInfo).then(response => {
         this.$message.success('登录成功')
-        this.setCookies(response.data.name, response.data.token)
+        this.setCookies(response.data.name, response.data.token, response.data.refreshToken)
       }).catch(() => {
         this.dialogAtrr.loginBtn = '马上登录'
       })
     },
 
-    setCookies(name, token) {
+    passwordLogin() {
+      const email = this.normalizeEmail(this.passwordForm.email)
+      if (!this.isValidEmail(email)) {
+        this.$message.error('邮箱地址不正确')
+        return
+      }
+      if (!this.passwordForm.password) {
+        this.$message.error('密码必须输入')
+        return
+      }
+      userInfoApi.passwordLogin({
+        email,
+        password: this.passwordForm.password
+      }).then(response => {
+        this.$message.success('登录成功')
+        this.setCookies(response.data.name, response.data.token, response.data.refreshToken)
+      })
+    },
+
+    resetPassword() {
+      const email = this.normalizeEmail(this.resetForm.email)
+      if (!this.isValidEmail(email)) {
+        this.$message.error('邮箱地址不正确')
+        return
+      }
+      if (!/^\d{6}$/.test(this.resetForm.code || '')) {
+        this.$message.error('验证码格式不正确')
+        return
+      }
+      if (!this.resetForm.newPassword || this.resetForm.newPassword.length < 8) {
+        this.$message.error('新密码至少 8 位')
+        return
+      }
+      userInfoApi.resetPassword({
+        email,
+        code: this.resetForm.code,
+        newPassword: this.resetForm.newPassword
+      }).then(() => {
+        this.$message.success('密码已重置，请使用密码登录')
+        this.switchAuthMode('password')
+        this.passwordForm.email = email
+      })
+    },
+
+    setCookies(name, token, refreshToken) {
       cookie.set('token', token)
+      if (refreshToken) {
+        cookie.set('refreshToken', refreshToken)
+      }
       cookie.set('name', name || this.userInfo.phone || '个人中心')
       const returnTo = window.sessionStorage ? window.sessionStorage.getItem('yygh-login-return') : ''
       if (returnTo && window.sessionStorage) {
@@ -317,6 +458,39 @@ export default {
       })
     },
 
+    sendResetCode() {
+      const email = this.normalizeEmail(this.resetForm.email)
+      if (!this.isValidEmail(email)) {
+        this.$message.error('邮箱地址不正确')
+        return
+      }
+      smsApi.sendEmailCode(email).then(() => {
+        this.$message.success('验证码已发送')
+        this.resetSecond = 60
+        if (this.clearResetTime) {
+          clearInterval(this.clearResetTime)
+        }
+        this.clearResetTime = setInterval(() => {
+          --this.resetSecond
+          if (this.resetSecond < 1) {
+            clearInterval(this.clearResetTime)
+            this.resetSecond = 0
+          }
+        }, 1000)
+      })
+    },
+
+    switchAuthMode(mode) {
+      this.authMode = mode
+      if (mode === 'code') {
+        this.dialogAtrr = createDefaultDialogAtrr()
+      } else if (mode === 'password') {
+        this.dialogAtrr.labelTips = '邮箱密码登录'
+      } else {
+        this.dialogAtrr.labelTips = '重置密码'
+      }
+    },
+
     normalizeEmail(value) {
       return (value || '').trim().toLowerCase()
     },
@@ -346,6 +520,9 @@ export default {
       if (this.clearSmsTime) {
         clearInterval(this.clearSmsTime)
       }
+      if (this.clearResetTime) {
+        clearInterval(this.clearResetTime)
+      }
     },
 
     showInfo() {
@@ -358,8 +535,7 @@ export default {
       if (command === '/logout') {
         cookie.remove('name')
         cookie.remove('token')
-        cookie.remove('name', { domain: 'localhost' })
-        cookie.remove('token', { domain: 'localhost' })
+        cookie.remove('refreshToken')
         window.location.href = '/'
         return
       }
@@ -433,6 +609,25 @@ export default {
 
 .login-entry {
   color: #4490f1;
+  font-weight: 600;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+.auth-tabs span {
+  cursor: pointer;
+  padding-bottom: 6px;
+}
+
+.auth-tabs .active {
+  color: #4490f1;
+  border-bottom: 2px solid #4490f1;
   font-weight: 600;
 }
 
