@@ -1,0 +1,5738 @@
+[
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-09T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "1",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "2",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "3",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-11T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "4",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "5",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "6",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-13T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "7",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "8",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "9",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-15T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "10",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "11",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "12",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-17T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "13",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "14",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "15",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-19T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "16",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "17",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "18",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-21T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "19",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "20",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "21",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-23T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "22",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-24T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "23",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-24T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "24",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-25T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "25",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-26T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "26",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-26T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "27",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-26T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "29",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-26T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "30",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-27T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "31",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-27T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "32",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-27T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "33",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-28T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "34",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-28T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "35",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-28T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "36",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-29T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "37",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-29T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "38",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-29T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "39",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-30T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "40",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-30T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "41",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-30T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "42",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-01T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "43",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-01T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "44",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-01T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "45",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-02T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "46",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-02T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "47",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-02T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "48",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-03T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "49",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-03T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "50",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-03T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "51",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-04T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "52",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-04T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "53",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-04T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "54",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-05T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "55",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-05T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "56",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-05T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "57",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-06T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "58",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-06T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "59",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-06T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "60",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-07T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "61",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-07T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "62",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-07T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "63",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-08T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "64",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-08T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "65",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-08T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "66",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-09T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "67",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-09T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "68",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-09T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "69",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-10T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "70",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-10T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "71",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-10T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "72",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-11T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "73",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-11T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "74",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-11T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "75",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-12T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "76",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-12T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "77",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-12T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "78",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-13T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "79",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-13T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "80",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-13T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "81",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-14T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "82",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-14T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "83",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-14T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "84",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-15T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "85",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-15T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "86",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-15T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "87",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-16T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "88",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-16T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "89",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-16T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "90",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-17T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "91",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-17T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "92",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-17T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "93",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-18T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "94",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-18T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "95",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-18T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "96",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-19T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "97",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-19T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "98",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-19T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "99",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-20T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "100",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-20T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "101",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-20T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "102",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-21T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "103",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-21T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "104",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-21T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "105",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-22T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "106",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-22T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "107",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-22T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "108",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-23T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "109",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-23T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "110",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-23T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "111",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "医师",
+    "docname": "",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-07-24T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "112",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-07-24T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "113",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040878",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-07-24T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "114",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-09T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-1",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-2",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-3",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-11T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-4",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-5",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-6",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-13T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-7",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-8",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-9",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-15T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-10",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-11",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-12",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-17T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-13",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-14",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-15",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-19T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-16",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-17",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-18",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-21T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-19",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-20",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200041246",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200041246-21",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-09T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-1",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-2",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-3",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-11T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-4",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-5",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-6",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-13T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-7",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-8",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-9",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-15T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-10",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-11",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-12",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-17T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-13",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-14",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-15",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-19T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-16",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-17",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-18",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-21T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-19",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-20",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200042374",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200042374-21",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-09T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-1",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-2",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-3",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-11T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-4",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-5",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-6",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-13T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-7",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-8",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-9",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-15T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-10",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-11",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-12",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-17T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-13",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-14",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-15",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-19T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-16",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-17",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-18",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-21T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-19",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-20",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200051188",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200051188-21",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-09T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-1",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-2",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-3",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-11T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-4",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-5",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-6",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-13T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-7",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-8",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-9",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-15T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-10",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-11",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-12",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-17T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-13",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-14",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-15",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-19T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-16",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-17",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-18",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-21T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-19",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-20",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004005",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004005-21",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-09T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-1",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-2",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-3",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-11T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-4",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-5",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-6",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-13T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-7",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-8",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-9",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-15T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-10",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-11",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-12",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-17T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-13",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-14",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-15",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-19T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-16",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-17",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-18",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-21T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-19",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-20",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200004090",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200004090-21",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-09T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-1",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-2",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-10T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-3",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-11T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-4",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-5",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-12T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-6",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-13T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-7",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-8",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-14T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-9",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-15T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-10",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-11",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-16T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-12",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-17T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-13",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-14",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-18T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-15",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-19T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-16",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-17",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-20T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-18",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "医师",
+    "docname": "邵迎红",
+    "skill": "内分泌科常见病。",
+    "workDate": {
+      "$date": "2026-06-21T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 33,
+    "availableNumber": 22,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-19",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "裴育",
+    "skill": "骨质疏松和骨代谢疾病、糖尿病、甲状腺疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 0,
+    "reservedNumber": 40,
+    "availableNumber": 6,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-20",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  },
+  {
+    "hoscode": "1000_0",
+    "depcode": "200040166",
+    "title": "副主任医师",
+    "docname": "邵迎红",
+    "skill": "内分泌与代谢性疾病。",
+    "workDate": {
+      "$date": "2026-06-22T16:00:00.000Z"
+    },
+    "workTime": 1,
+    "reservedNumber": 27,
+    "availableNumber": 10,
+    "amount": 100,
+    "status": 1,
+    "hosScheduleId": "DEMO-200040166-21",
+    "createTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "updateTime": {
+      "$date": "2026-06-09T09:19:13.817Z"
+    },
+    "isDeleted": 0,
+    "_class": "com.atguigu.yygh.model.hosp.Schedule"
+  }
+]
