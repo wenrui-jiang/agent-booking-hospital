@@ -25,6 +25,8 @@ MAIL_SSL="${YYGH_MAIL_SSL:-true}"
 MAIL_STARTTLS="${YYGH_MAIL_STARTTLS:-false}"
 
 mkdir -p "$LOG_DIR" "$PID_DIR"
+LOG_MAX_BYTES="${YYGH_SERVICE_LOG_MAX_BYTES:-10485760}"
+LOG_ROTATE_KEEP="${YYGH_SERVICE_LOG_ROTATE_KEEP:-3}"
 
 BACKEND_ROOT="$(find "$ROOT" -type d -name yygh_parent -print -quit)"
 FRONTEND_ROOT="$(find "$ROOT" -type d -name yygh-site -print -quit)"
@@ -89,6 +91,33 @@ jar_for() {
   find "$workdir" -type f -name "$pattern" ! -path '*/original/*' -print | head -n 1
 }
 
+rotate_log_if_needed() {
+  local file="$1"
+  if [[ ! -f "$file" ]]; then
+    return
+  fi
+
+  local size
+  size="$(wc -c <"$file" 2>/dev/null || echo 0)"
+  if [[ "$size" -le "$LOG_MAX_BYTES" ]]; then
+    return
+  fi
+
+  local stamp
+  stamp="$(date +%Y%m%d%H%M%S)"
+  mv "$file" "$file.$stamp"
+  find "$(dirname "$file")" -maxdepth 1 -name "$(basename "$file").*" -type f -printf '%T@ %p\n' |
+    sort -nr |
+    awk -v keep="$LOG_ROTATE_KEEP" 'NR > keep { print $2 }' |
+    xargs -r rm -f
+}
+
+prepare_service_logs() {
+  local name="$1"
+  rotate_log_if_needed "$LOG_DIR/$name.out.log"
+  rotate_log_if_needed "$LOG_DIR/$name.err.log"
+}
+
 start_java_service() {
   local name="$1"
   local workdir="$2"
@@ -107,6 +136,7 @@ start_java_service() {
     exit 1
   fi
 
+  prepare_service_logs "$name"
   (
     cd "$workdir"
     nohup java -jar "$jar" "$@" >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
@@ -122,9 +152,10 @@ start_npm_service() {
     return
   fi
 
+  prepare_service_logs "$name"
   (
     cd "$FRONTEND_ROOT"
-    nohup env NODE_OPTIONS=--openssl-legacy-provider npm run dev >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
+    nohup env NODE_OPTIONS=--openssl-legacy-provider HOST=127.0.0.1 PORT=3000 NUXT_HOST=127.0.0.1 NUXT_PORT=3000 npm run start >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
     echo $! >"$(pid_file "$name")"
   )
   echo "Started $name (PID $(cat "$(pid_file "$name")"))"
@@ -136,6 +167,7 @@ start_all() {
     "--spring.datasource.username=$MYSQL_USERNAME" \
     "--spring.datasource.password=$MYSQL_PASSWORD" \
     '--spring.data.mongodb.uri=mongodb://127.0.0.1:27017/yygh_hosp' \
+    '--spring.data.mongodb.auto-index-creation=false' \
     '--spring.rabbitmq.host=127.0.0.1' \
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848'
 

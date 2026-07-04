@@ -5,6 +5,7 @@ runtime-tools/
 *.log
 hs_err_pid*.log
 replay_pid*.log
+erl_crash.dump
 
 # Java / Maven
 **/target/
