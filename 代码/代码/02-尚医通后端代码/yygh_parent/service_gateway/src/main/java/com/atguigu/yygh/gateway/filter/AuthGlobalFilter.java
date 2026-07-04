@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.atguigu.yygh.common.helper.JwtHelper;
 import com.atguigu.yygh.common.result.Result;
 import com.atguigu.yygh.common.result.ResultCodeEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -28,6 +29,7 @@ import java.util.List;
  * @since 2019-11-21
  */
 @Component
+@Slf4j
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
     private AntPathMatcher antPathMatcher = new AntPathMatcher();
@@ -36,7 +38,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
-        System.out.println("==="+path);
+        log.debug("Gateway request path: {}", path);
 
         //内部服务接口，不允许外部访问
         if(antPathMatcher.match("/**/inner/**", path)) {

@@ -99,7 +99,7 @@ public class MsmServiceImpl implements MsmService {
             sendJavaMail(email, subject, body);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to send email verification code to {}", email, e);
             return false;
         }
     }
@@ -254,12 +254,12 @@ public class MsmServiceImpl implements MsmService {
 
         try {
             CommonResponse response = client.getCommonResponse(request);
-            System.out.println(response.getData());
+            log.debug("SMS provider response received for {}", phone);
             return response.getHttpResponse().isSuccess();
         } catch (ServerException e) {
-            e.printStackTrace();
+            log.error("SMS send server exception for {}", phone, e);
         } catch (ClientException e) {
-            e.printStackTrace();
+            log.error("SMS send client exception for {}", phone, e);
         }
         return false;
     }
@@ -287,12 +287,12 @@ public class MsmServiceImpl implements MsmService {
 
         try {
             CommonResponse response = client.getCommonResponse(request);
-            System.out.println(response.getData());
+            log.debug("SMS provider response received for {}", phone);
             return response.getHttpResponse().isSuccess();
         } catch (ServerException e) {
-            e.printStackTrace();
+            log.error("SMS send server exception for {}", phone, e);
         } catch (ClientException e) {
-            e.printStackTrace();
+            log.error("SMS send client exception for {}", phone, e);
         }
         return false;
     }

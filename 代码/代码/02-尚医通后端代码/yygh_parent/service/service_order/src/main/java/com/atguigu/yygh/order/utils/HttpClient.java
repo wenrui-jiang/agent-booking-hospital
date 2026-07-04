@@ -15,6 +15,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
@@ -35,6 +36,7 @@ import java.util.Map;
  * @author qy
  *
  */
+@Slf4j
 public class HttpClient {
 
     private String url;
@@ -190,7 +192,7 @@ public class HttpClient {
                 response.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("HTTP request failed for url {}", url, e);
         } finally {
             httpClient.close();
         }

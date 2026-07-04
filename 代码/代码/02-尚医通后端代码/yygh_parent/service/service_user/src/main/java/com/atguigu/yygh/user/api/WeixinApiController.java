@@ -8,6 +8,7 @@ import com.atguigu.yygh.user.service.UserInfoService;
 import com.atguigu.yygh.user.utils.ConstantWxPropertiesUtils;
 import com.atguigu.yygh.user.utils.HttpClientUtils;
 import java.net.URLEncoder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -22,6 +23,7 @@ import java.util.Map;
 //微信操作的接口
 @Controller
 @RequestMapping("/api/ucenter/wx")
+@Slf4j
 public class WeixinApiController {
 
     @Autowired
@@ -31,7 +33,7 @@ public class WeixinApiController {
     @GetMapping("callback")
     public String callback(String code,String state) {
         //第一步 获取临时票据 code
-        System.out.println("code:"+code);
+        log.debug("Received weixin callback code: {}", code);
         //第二步 拿着code和微信id和秘钥，请求微信固定地址 ，得到两个值
         //使用code和appid以及appscrect换取access_token
         //  %s   占位符
@@ -48,7 +50,7 @@ public class WeixinApiController {
         //使用httpclient请求这个地址
         try {
             String accesstokenInfo = HttpClientUtils.get(accessTokenUrl);
-            System.out.println("accesstokenInfo:"+accesstokenInfo);
+            log.debug("Weixin access token response received");
             //从返回字符串获取两个值 openid  和  access_token
             JSONObject jsonObject = JSONObject.parseObject(accesstokenInfo);
             String access_token = jsonObject.getString("access_token");
@@ -64,7 +66,7 @@ public class WeixinApiController {
                         "&openid=%s";
                 String userInfoUrl = String.format(baseUserInfoUrl, access_token, openid);
                 String resultInfo = HttpClientUtils.get(userInfoUrl);
-                System.out.println("resultInfo:"+resultInfo);
+                log.debug("Weixin user info response received for openid {}", openid);
                 JSONObject resultUserInfoJson = JSONObject.parseObject(resultInfo);
                 //解析用户信息
                 //用户昵称
@@ -104,7 +106,7 @@ public class WeixinApiController {
             //跳转到前端页面
             return "redirect:" + ConstantWxPropertiesUtils.YYGH_BASE_URL + "/weixin/callback?token="+map.get("token")+ "&openid="+map.get("openid")+"&name="+URLEncoder.encode(map.get("name"),"utf-8");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Weixin callback handling failed", e);
             return null;
         }
     }
@@ -124,7 +126,7 @@ public class WeixinApiController {
             map.put("state",System.currentTimeMillis()+"");
             return Result.ok(map);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            log.error("Failed to encode weixin redirect url", e);
             return null;
         }
     }

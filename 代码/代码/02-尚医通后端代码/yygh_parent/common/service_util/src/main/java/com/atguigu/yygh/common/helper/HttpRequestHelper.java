@@ -52,9 +52,8 @@ public class HttpRequestHelper {
             str.append(param.getValue()).append("|");
         }
         str.append(signKey);
-        log.info("加密前：" + str.toString());
         String md5Str = MD5.encrypt(str.toString());
-        log.info("加密后：" + md5Str);
+        log.debug("Sign generated for {} params", sorted.size());
         return md5Str;
     }
 
@@ -96,13 +95,13 @@ public class HttpRequestHelper {
                 postdata.append(param.getKey()).append("=")
                         .append(param.getValue()).append("&");
             }
-            log.info(String.format("--> 发送请求：post data %1s", postdata));
+            log.debug("Send request to {} with {} params", url, paramMap.size());
             byte[] reqData = postdata.toString().getBytes("utf-8");
             byte[] respdata = HttpUtil.doPost(url,reqData);
             result = new String(respdata);
-            log.info(String.format("--> 应答结果：result data %1s", result));
+            log.debug("Receive response from {} with {} chars", url, result.length());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("Failed to send request to {}", url, ex);
         }
         return JSONObject.parseObject(result);
     }

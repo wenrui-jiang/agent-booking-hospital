@@ -14,6 +14,7 @@ import com.atguigu.yygh.order.utils.ConstantPropertiesUtils;
 import com.atguigu.yygh.order.utils.HttpClient;
 import com.github.wxpay.sdk.WXPayConstants;
 import com.github.wxpay.sdk.WXPayUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Slf4j
 public class WeixinServiceImpl implements WeixinService {
 
     @Autowired
@@ -76,7 +78,7 @@ public class WeixinServiceImpl implements WeixinService {
             String xml = client.getContent();
             //转换map集合
             Map<String, String> resultMap = WXPayUtil.xmlToMap(xml);
-            System.out.println("resultMap:"+resultMap);
+            log.debug("createNative response for orderId {} resultCode {}", orderId, resultMap.get("result_code"));
             //6 封装返回结果集
             Map map = new HashMap<>();
             map.put("orderId", orderId);
@@ -89,7 +91,7 @@ public class WeixinServiceImpl implements WeixinService {
             }
             return map;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to create weixin native payment for orderId {}", orderId, e);
             return null;
         }
     }
@@ -117,10 +119,11 @@ public class WeixinServiceImpl implements WeixinService {
             //4 得到微信接口返回数据
             String xml = client.getContent();
             Map<String, String> resultMap = WXPayUtil.xmlToMap(xml);
-            System.out.println("支付状态resultMap:"+resultMap);
+            log.debug("queryPayStatus response for orderId {} tradeState {}", orderId, resultMap.get("trade_state"));
             //5 把接口数据返回
             return resultMap;
         }catch(Exception e) {
+            log.error("Failed to query weixin pay status for orderId {}", orderId, e);
             return null;
         }
     }
@@ -173,7 +176,7 @@ public class WeixinServiceImpl implements WeixinService {
             }
             return false;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to refund weixin payment for orderId {}", orderId, e);
             return null;
         }
     }
