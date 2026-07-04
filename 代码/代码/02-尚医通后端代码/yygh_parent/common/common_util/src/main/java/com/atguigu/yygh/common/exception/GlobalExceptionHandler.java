@@ -12,13 +12,13 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result error(Exception e) {
         e.printStackTrace();
-        return Result.fail();
+        return Result.build(201, e.getMessage() == null ? "失败" : e.getMessage());
     }
 
     @ExceptionHandler(YyghException.class)
     @ResponseBody
     public Result error(YyghException e) {
         e.printStackTrace();
-        return Result.fail();
+        return Result.build(e.getCode(), e.getMessage());
     }
 }

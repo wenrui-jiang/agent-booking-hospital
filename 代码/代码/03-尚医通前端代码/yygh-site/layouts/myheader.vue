@@ -140,24 +140,6 @@
               </el-form>
               <div class="send-button v-button" @click="btnClick">{{ currentAuthButton }}</div>
             </div>
-            <div class="bottom">
-              <div class="wechat-wrapper" @click="weixinLogin"><span class="iconfont icon">微</span></div>
-              <span class="third-text">第三方账号登录</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="operate-view" v-if="dialogAtrr.showLoginType === 'weixin'">
-          <div class="wrapper wechat" style="height: 400px">
-            <div>
-              <div id="weixinLogin"></div>
-            </div>
-            <div class="bottom wechat" style="margin-top: -80px;">
-              <div class="phone-container">
-                <div class="phone-wrapper" @click="emailLogin"><span class="iconfont icon">邮</span></div>
-                <span class="third-text">邮箱验证码登录</span>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -165,13 +147,13 @@
           <div class="code-wrapper">
             <div>
               <img src="/images/demo-qr.png" class="code-img">
-              <div class="code-text"><span class="iconfont icon">微</span>微信扫一扫关注</div>
-              <div class="code-text">“本地预约演示”</div>
+              <div class="code-text">本地演示环境二维码</div>
+              <div class="code-text">仅用于测试说明展示</div>
             </div>
             <div class="wechat-code-wrapper">
               <img src="/images/demo-qr.png" class="code-img">
               <div class="code-text">扫一扫下载</div>
-              <div class="code-text">“演示平台”</div>
+              <div class="code-text">演示平台客户端</div>
             </div>
           </div>
           <div class="slogan">
@@ -191,7 +173,6 @@ import Vue from 'vue'
 import userInfoApi from '@/api/user/userInfo'
 import smsApi from '@/api/sms/sms'
 import hospitalApi from '@/api/hosp/hospital'
-import weixinApi from '@/api/user/weixin'
 
 const LOGIN_STEP_ACCOUNT = 'account'
 const LOGIN_STEP_CODE = 'code'
@@ -215,8 +196,7 @@ export default {
       userInfo: {
         email: '',
         phone: '',
-        code: '',
-        openid: ''
+        code: ''
       },
       authMode: 'code',
       passwordForm: {
@@ -269,13 +249,8 @@ export default {
     })
     window.addEventListener('yygh-header-search-visible', this.handleHeaderSearchVisible)
 
-    const script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = 'https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js'
-    document.body.appendChild(script)
-
-    window.loginCallback = (name, token, openid) => {
-      this.loginCallback(name, token, openid)
+    window.loginCallback = (name, token) => {
+      this.loginCallback(name, token)
     }
   },
 
@@ -306,13 +281,8 @@ export default {
       this.showHeaderSearch = !!(event && event.detail && event.detail.visible)
     },
 
-    loginCallback(name, token, openid) {
-      if (openid) {
-        this.userInfo.openid = openid
-        this.showLogin()
-      } else {
-        this.setCookies(name, token)
-      }
+    loginCallback(name, token) {
+      this.setCookies(name, token)
     },
 
     btnClick() {
@@ -558,29 +528,6 @@ export default {
 
     handleSelect(item) {
       window.location.href = '/hospital/' + item.hoscode
-    },
-
-    weixinLogin() {
-      this.dialogAtrr.showLoginType = 'weixin'
-
-      weixinApi.getLoginParam().then(response => {
-        // eslint-disable-next-line no-undef
-        new WxLogin({
-          self_redirect: true,
-          id: 'weixinLogin',
-          appid: response.data.appid,
-          scope: response.data.scope,
-          redirect_uri: response.data.redirectUri,
-          state: response.data.state,
-          style: 'black',
-          href: ''
-        })
-      })
-    },
-
-    emailLogin() {
-      this.dialogAtrr.showLoginType = 'email'
-      this.showLogin()
     }
   }
 }

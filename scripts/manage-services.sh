@@ -8,6 +8,21 @@ LOG_DIR="$ROOT/runtime-logs"
 PID_DIR="$LOG_DIR/pids"
 MYSQL_USERNAME="${YYGH_MYSQL_USERNAME:-root}"
 MYSQL_PASSWORD="${YYGH_MYSQL_PASSWORD:-}"
+LOCAL_ENV_FILE="${YYGH_LOCAL_ENV_FILE:-$ROOT/.env.mail.local}"
+
+if [[ -f "$LOCAL_ENV_FILE" ]]; then
+  # shellcheck disable=SC1090
+  source "$LOCAL_ENV_FILE"
+fi
+
+MAIL_SMTP_HOST="${YYGH_MAIL_SMTP_HOST:-smtp.fastmail.com}"
+MAIL_SMTP_PORT="${YYGH_MAIL_SMTP_PORT:-465}"
+MAIL_SMTP_USERNAME="${YYGH_MAIL_SMTP_USERNAME:-hello@jiangwenrui.com}"
+MAIL_SMTP_AUTH_USERNAME="${YYGH_MAIL_SMTP_AUTH_USERNAME:-}"
+MAIL_FROM_ADDRESS="${YYGH_MAIL_FROM_ADDRESS:-hello@jiangwenrui.com}"
+MAIL_FROM_NAME="${YYGH_MAIL_FROM_NAME:-Jiangwenrui}"
+MAIL_SSL="${YYGH_MAIL_SSL:-true}"
+MAIL_STARTTLS="${YYGH_MAIL_STARTTLS:-false}"
 
 mkdir -p "$LOG_DIR" "$PID_DIR"
 
@@ -109,7 +124,7 @@ start_npm_service() {
 
   (
     cd "$FRONTEND_ROOT"
-    nohup npm run dev >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
+    nohup env NODE_OPTIONS=--openssl-legacy-provider npm run dev >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
     echo $! >"$(pid_file "$name")"
   )
   echo "Started $name (PID $(cat "$(pid_file "$name")"))"
@@ -152,8 +167,16 @@ start_all() {
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848' \
     '--spring.redis.host=127.0.0.1' \
     '--spring.redis.port=6379' \
-    '--yygh.msm.dev-mode=true' \
-    '--yygh.msm.dev-code=123456'
+    '--yygh.msm.dev-mode=false' \
+    '--yygh.mail.enabled=true' \
+    "--yygh.mail.host=$MAIL_SMTP_HOST" \
+    "--yygh.mail.port=$MAIL_SMTP_PORT" \
+    "--yygh.mail.username=$MAIL_SMTP_USERNAME" \
+    "--yygh.mail.auth-username=$MAIL_SMTP_AUTH_USERNAME" \
+    "--yygh.mail.from-address=$MAIL_FROM_ADDRESS" \
+    "--yygh.mail.from-name=$MAIL_FROM_NAME" \
+    "--yygh.mail.ssl=$MAIL_SSL" \
+    "--yygh.mail.starttls=$MAIL_STARTTLS"
 
   start_java_service service-oss "$BACKEND_ROOT/service/service_oss" '*.jar' \
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848'
@@ -168,6 +191,8 @@ start_all() {
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848'
 
   start_java_service service-gateway "$BACKEND_ROOT/service_gateway" '*.jar' \
+    '--server.port=8080' \
+    '--spring.profiles.active=dev' \
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848'
 
   start_npm_service

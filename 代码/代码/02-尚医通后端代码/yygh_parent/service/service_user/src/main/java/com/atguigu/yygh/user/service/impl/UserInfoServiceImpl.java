@@ -78,7 +78,9 @@ public class UserInfoServiceImpl  extends
         if(StringUtils.isEmpty(redisCode)) {
             redisCode = redisTemplate.opsForValue().get(phone);
         }
-        if(!code.equals(redisCode)) {
+        String normalizedRedisCode = normalizeCode(redisCode);
+        String normalizedInputCode = normalizeCode(code);
+        if(StringUtils.isEmpty(normalizedRedisCode) || !normalizedInputCode.equals(normalizedRedisCode)) {
             throw new YyghException(ResultCodeEnum.CODE_ERROR);
         }
 
@@ -203,7 +205,9 @@ public class UserInfoServiceImpl  extends
         }
         String codeKey = buildEmailCodeKey(email);
         String redisCode = redisTemplate.opsForValue().get(codeKey);
-        if(StringUtils.isEmpty(redisCode) || !code.equals(redisCode)) {
+        String normalizedRedisCode = normalizeCode(redisCode);
+        String normalizedInputCode = normalizeCode(code);
+        if(StringUtils.isEmpty(normalizedRedisCode) || !normalizedInputCode.equals(normalizedRedisCode)) {
             throw new YyghException(ResultCodeEnum.CODE_ERROR);
         }
 
@@ -407,6 +411,13 @@ public class UserInfoServiceImpl  extends
             return localPart.substring(0, 16);
         }
         return localPart;
+    }
+
+    private String normalizeCode(String code) {
+        if(StringUtils.isEmpty(code)) {
+            return "";
+        }
+        return code.trim().replace("\"", "");
     }
 
     @Override
