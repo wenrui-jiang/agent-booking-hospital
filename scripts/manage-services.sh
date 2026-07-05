@@ -269,7 +269,8 @@ start_all() {
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848' \
     '--spring.redis.host=127.0.0.1' \
     '--spring.redis.port=6379' \
-    '--yygh.msm.dev-mode=false' \
+    "--yygh.msm.dev-mode=${YYGH_MSM_DEV_MODE:-false}" \
+    "--yygh.msm.dev-code=${YYGH_MSM_DEV_CODE:-123456}" \
     '--yygh.mail.enabled=true' \
     "--yygh.mail.host=$MAIL_SMTP_HOST" \
     "--yygh.mail.port=$MAIL_SMTP_PORT" \
