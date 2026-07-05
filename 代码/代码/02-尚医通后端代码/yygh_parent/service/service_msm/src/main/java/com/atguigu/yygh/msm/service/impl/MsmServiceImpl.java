@@ -65,6 +65,15 @@ public class MsmServiceImpl implements MsmService {
     @Value("${yygh.mail.from-name:YYGH}")
     private String mailFromName;
 
+    @Value("${yygh.mail.connection-timeout-ms:5000}")
+    private int mailConnectionTimeoutMs;
+
+    @Value("${yygh.mail.timeout-ms:5000}")
+    private int mailTimeoutMs;
+
+    @Value("${yygh.mail.write-timeout-ms:5000}")
+    private int mailWriteTimeoutMs;
+
     @Override
     public boolean send(String phone, String code) {
         if (StringUtils.isEmpty(phone)) {
@@ -118,6 +127,9 @@ public class MsmServiceImpl implements MsmService {
         Properties properties = sender.getJavaMailProperties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.debug", "false");
+        properties.put("mail.smtp.connectiontimeout", String.valueOf(mailConnectionTimeoutMs));
+        properties.put("mail.smtp.timeout", String.valueOf(mailTimeoutMs));
+        properties.put("mail.smtp.writetimeout", String.valueOf(mailWriteTimeoutMs));
         if (mailSsl) {
             properties.put("mail.smtp.socketFactoryClass", "javax.net.ssl.SSLSocketFactory");
         }
