@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 const api_name = '/api/agent'
-const agentBaseUrl = 'http://localhost:8210'
+const agentBaseUrl = process.env.AGENT_API_BASE_URL || ''
 
 export default {
   chat(data) {
