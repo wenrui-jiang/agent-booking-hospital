@@ -143,7 +143,7 @@ service_pid() {
   fi
   if [[ "$name" == "yygh-site" && -n "${FRONTEND_ROOT:-}" ]]; then
     local detected_pid
-    detected_pid="$(pgrep -f "$FRONTEND_ROOT/node_modules/nuxt/bin/nuxt.js start" | head -n 1 || true)"
+    detected_pid="$(pgrep -f "$FRONTEND_ROOT/node_modules/(\\.bin/nuxt|nuxt/bin/nuxt.js) start" | head -n 1 || true)"
     if [[ -n "$detected_pid" ]]; then
       echo "$detected_pid" >"$file"
       echo "$detected_pid"
