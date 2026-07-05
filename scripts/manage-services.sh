@@ -6,13 +6,62 @@ ACTION="${1:-start}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LOG_DIR="$ROOT/runtime-logs"
 PID_DIR="$LOG_DIR/pids"
-MYSQL_USERNAME="${YYGH_MYSQL_USERNAME:-root}"
-MYSQL_PASSWORD="${YYGH_MYSQL_PASSWORD:-}"
 LOCAL_ENV_FILE="${YYGH_LOCAL_ENV_FILE:-$ROOT/.env.mail.local}"
+CLOUD_ENV_FILE="$ROOT/deploy/cloud/.env"
+MYSQL_ENV_FILE="$ROOT/.env.mysql.local"
+
+if [[ -f "$CLOUD_ENV_FILE" ]]; then
+  # shellcheck disable=SC1090
+  source "$CLOUD_ENV_FILE"
+fi
 
 if [[ -f "$LOCAL_ENV_FILE" ]]; then
   # shellcheck disable=SC1090
   source "$LOCAL_ENV_FILE"
+fi
+
+if [[ -f "$MYSQL_ENV_FILE" ]]; then
+  # shellcheck disable=SC1090
+  source "$MYSQL_ENV_FILE"
+fi
+
+MYSQL_USERNAME="${YYGH_MYSQL_USERNAME:-root}"
+MYSQL_PASSWORD="${YYGH_MYSQL_PASSWORD:-}"
+
+detect_mysql_password_from_docker() {
+  if ! command -v docker >/dev/null 2>&1; then
+    return 1
+  fi
+  if ! docker ps -a --format '{{.Names}}' 2>/dev/null | grep -x 'yygh-mysql' >/dev/null 2>&1; then
+    return 1
+  fi
+  docker inspect yygh-mysql --format '{{range .Config.Env}}{{println .}}{{end}}' 2>/dev/null \
+    | grep '^MYSQL_ROOT_PASSWORD=' \
+    | awk -F '=' '{print $2}' \
+    | tr -d '\r' \
+    | tail -n 1
+}
+
+if [[ -z "$MYSQL_PASSWORD" ]]; then
+  AUTO_DETECTED_MYSQL_PASSWORD="$(detect_mysql_password_from_docker || true)"
+  if [[ -n "$AUTO_DETECTED_MYSQL_PASSWORD" ]]; then
+    MYSQL_PASSWORD="$AUTO_DETECTED_MYSQL_PASSWORD"
+    export YYGH_MYSQL_PASSWORD="$MYSQL_PASSWORD"
+    echo "[INFO] Auto-detected YYGH_MYSQL_PASSWORD from docker container yygh-mysql."
+  fi
+fi
+
+if [[ -z "$MYSQL_PASSWORD" && "$ACTION" != "stop" && "$ACTION" != "status" ]]; then
+  cat <<'EOF'
+[ERROR] YYGH_MYSQL_PASSWORD is empty.
+Please choose one of the following fixes before starting services:
+  1) Export password for current shell:
+     export YYGH_MYSQL_PASSWORD='your_mysql_root_password'
+  2) Persist in project file:
+     echo "export YYGH_MYSQL_PASSWORD='your_mysql_root_password'" > .env.mysql.local
+  3) Ensure docker container name is yygh-mysql so password can be auto-detected.
+EOF
+  exit 1
 fi
 
 MAIL_SMTP_HOST="${YYGH_MAIL_SMTP_HOST:-smtp.fastmail.com}"
@@ -23,6 +72,16 @@ MAIL_FROM_ADDRESS="${YYGH_MAIL_FROM_ADDRESS:-hello@jiangwenrui.com}"
 MAIL_FROM_NAME="${YYGH_MAIL_FROM_NAME:-Jiangwenrui}"
 MAIL_SSL="${YYGH_MAIL_SSL:-true}"
 MAIL_STARTTLS="${YYGH_MAIL_STARTTLS:-false}"
+
+MYSQL_PASSWORD_ARGS=()
+if [[ -n "$MYSQL_PASSWORD" ]]; then
+  MYSQL_PASSWORD_ARGS=("--spring.datasource.password=$MYSQL_PASSWORD")
+fi
+
+MAIL_AUTH_USERNAME_ARGS=()
+if [[ -n "$MAIL_SMTP_AUTH_USERNAME" ]]; then
+  MAIL_AUTH_USERNAME_ARGS=("--yygh.mail.auth-username=$MAIL_SMTP_AUTH_USERNAME")
+fi
 
 mkdir -p "$LOG_DIR" "$PID_DIR"
 LOG_MAX_BYTES="${YYGH_SERVICE_LOG_MAX_BYTES:-10485760}"
@@ -155,6 +214,7 @@ start_npm_service() {
   prepare_service_logs "$name"
   (
     cd "$FRONTEND_ROOT"
+    NODE_OPTIONS=--openssl-legacy-provider npm run build
     nohup env NODE_OPTIONS=--openssl-legacy-provider HOST=127.0.0.1 PORT=3000 NUXT_HOST=127.0.0.1 NUXT_PORT=3000 npm run start >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
     echo $! >"$(pid_file "$name")"
   )
@@ -165,7 +225,7 @@ start_all() {
   start_java_service service-hosp "$BACKEND_ROOT/service/service_hosp" 'service-hosp*.jar' \
     '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai' \
     "--spring.datasource.username=$MYSQL_USERNAME" \
-    "--spring.datasource.password=$MYSQL_PASSWORD" \
+    "${MYSQL_PASSWORD_ARGS[@]}" \
     '--spring.data.mongodb.uri=mongodb://127.0.0.1:27017/yygh_hosp' \
     '--spring.data.mongodb.auto-index-creation=false' \
     '--spring.rabbitmq.host=127.0.0.1' \
@@ -174,22 +234,23 @@ start_all() {
   start_java_service service-cmn "$BACKEND_ROOT/service/service_cmn" '*.jar' \
     '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_cmn?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai' \
     "--spring.datasource.username=$MYSQL_USERNAME" \
-    "--spring.datasource.password=$MYSQL_PASSWORD" \
+    "${MYSQL_PASSWORD_ARGS[@]}" \
     '--spring.rabbitmq.host=127.0.0.1' \
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848'
 
   start_java_service service-user "$BACKEND_ROOT/service/service_user" '*.jar' \
     '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_user?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai' \
     "--spring.datasource.username=$MYSQL_USERNAME" \
-    "--spring.datasource.password=$MYSQL_PASSWORD" \
+    "${MYSQL_PASSWORD_ARGS[@]}" \
     '--spring.rabbitmq.host=127.0.0.1' \
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848'
 
   start_java_service service-order "$BACKEND_ROOT/service/service_order" '*.jar' \
     '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_order?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai' \
     "--spring.datasource.username=$MYSQL_USERNAME" \
-    "--spring.datasource.password=$MYSQL_PASSWORD" \
+    "${MYSQL_PASSWORD_ARGS[@]}" \
     '--spring.data.mongodb.uri=mongodb://127.0.0.1:27017/yygh_hosp' \
+    '--spring.data.mongodb.auto-index-creation=false' \
     '--spring.rabbitmq.host=127.0.0.1' \
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848' \
     '--yygh.order.mock-hospital-submit=true'
@@ -204,7 +265,7 @@ start_all() {
     "--yygh.mail.host=$MAIL_SMTP_HOST" \
     "--yygh.mail.port=$MAIL_SMTP_PORT" \
     "--yygh.mail.username=$MAIL_SMTP_USERNAME" \
-    "--yygh.mail.auth-username=$MAIL_SMTP_AUTH_USERNAME" \
+    "${MAIL_AUTH_USERNAME_ARGS[@]}" \
     "--yygh.mail.from-address=$MAIL_FROM_ADDRESS" \
     "--yygh.mail.from-name=$MAIL_FROM_NAME" \
     "--yygh.mail.ssl=$MAIL_SSL" \

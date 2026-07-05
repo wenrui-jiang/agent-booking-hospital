@@ -7,6 +7,8 @@ const service = axios.create({
   timeout: 15000
 })
 
+let authPrompting = false
+
 service.interceptors.request.use(
   config => {
     if (cookie.get('token')) {
@@ -23,7 +25,16 @@ service.interceptors.response.use(
   response => {
     if (response.data.code === 208) {
       if (typeof window !== 'undefined' && window.loginEvent) {
-        window.loginEvent.$emit('loginDialogEvent')
+        cookie.remove('token')
+        cookie.remove('refreshToken')
+        cookie.remove('name')
+        if (!authPrompting) {
+          authPrompting = true
+          window.loginEvent.$emit('loginDialogEvent')
+          window.setTimeout(() => {
+            authPrompting = false
+          }, 1000)
+        }
       }
       return Promise.reject(response.data)
     }
@@ -42,7 +53,7 @@ service.interceptors.response.use(
     return response.data
   },
   error => {
-    return Promise.reject(error.response)
+    return Promise.reject(error && error.response ? error.response : error)
   })
 
 export default service

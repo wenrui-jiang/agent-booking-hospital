@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 const api_name = `/api/msm`
-const msm_service_api = `http://127.0.0.1:8204/api/msm`
+const msm_service_api = process.env.MSM_API_BASE_URL || `/api/msm`
 
 export default {
   sendEmailCode(email) {
