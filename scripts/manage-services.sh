@@ -124,7 +124,8 @@ start_npm_service() {
 
   (
     cd "$FRONTEND_ROOT"
-    nohup env NODE_OPTIONS=--openssl-legacy-provider npm run dev >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
+    NODE_OPTIONS=--openssl-legacy-provider npm run build
+    nohup env NODE_OPTIONS=--openssl-legacy-provider npm run start >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
     echo $! >"$(pid_file "$name")"
   )
   echo "Started $name (PID $(cat "$(pid_file "$name")"))"
