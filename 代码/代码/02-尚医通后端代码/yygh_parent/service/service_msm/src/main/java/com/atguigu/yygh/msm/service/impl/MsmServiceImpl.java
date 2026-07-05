@@ -131,10 +131,12 @@ public class MsmServiceImpl implements MsmService {
         properties.put("mail.smtp.timeout", String.valueOf(mailTimeoutMs));
         properties.put("mail.smtp.writetimeout", String.valueOf(mailWriteTimeoutMs));
         if (mailSsl) {
-            properties.put("mail.smtp.socketFactoryClass", "javax.net.ssl.SSLSocketFactory");
+            properties.put("mail.smtp.ssl.enable", "true");
+            properties.put("mail.smtp.ssl.trust", mailHost);
         }
         if (mailStarttls) {
             properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.starttls.required", "true");
         }
 
         SimpleMailMessage message = new SimpleMailMessage();
