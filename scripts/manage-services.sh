@@ -141,6 +141,15 @@ service_pid() {
     fi
     rm -f "$file"
   fi
+  if [[ "$name" == "yygh-site" && -n "${FRONTEND_ROOT:-}" ]]; then
+    local detected_pid
+    detected_pid="$(pgrep -f "$FRONTEND_ROOT/node_modules/nuxt/bin/nuxt.js start" | head -n 1 || true)"
+    if [[ -n "$detected_pid" ]]; then
+      echo "$detected_pid" >"$file"
+      echo "$detected_pid"
+      return 0
+    fi
+  fi
   return 1
 }
 
@@ -215,7 +224,7 @@ start_npm_service() {
   (
     cd "$FRONTEND_ROOT"
     NODE_OPTIONS=--openssl-legacy-provider npm run build
-    nohup env NODE_OPTIONS=--openssl-legacy-provider HOST=127.0.0.1 PORT=3000 NUXT_HOST=127.0.0.1 NUXT_PORT=3000 npm run start >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
+    nohup env NODE_OPTIONS=--openssl-legacy-provider HOST=127.0.0.1 PORT=3000 NUXT_HOST=127.0.0.1 NUXT_PORT=3000 node node_modules/nuxt/bin/nuxt.js start >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
     echo $! >"$(pid_file "$name")"
   )
   echo "Started $name (PID $(cat "$(pid_file "$name")"))"
