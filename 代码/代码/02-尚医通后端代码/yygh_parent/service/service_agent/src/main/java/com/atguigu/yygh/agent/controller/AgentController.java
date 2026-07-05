@@ -1,6 +1,8 @@
 package com.atguigu.yygh.agent.controller;
 
 import com.atguigu.yygh.agent.model.AgentSession;
+import com.atguigu.yygh.agent.model.AgentMessage;
+import com.atguigu.yygh.agent.model.AgentSessionSummary;
 import com.atguigu.yygh.agent.model.ChatRequest;
 import com.atguigu.yygh.agent.model.ChatResponse;
 import com.atguigu.yygh.agent.model.PretriageReport;
@@ -33,23 +35,43 @@ public class AgentController {
         return Result.ok(agentWorkflowService.chat(request, token));
     }
 
+    @GetMapping("sessions")
+    public Result<List<AgentSessionSummary>> listSessions(@RequestHeader(value = "token", required = false) String token) {
+        return Result.ok(agentWorkflowService.listSessions(token));
+    }
+
+    @PostMapping("session/new")
+    public Result<AgentSession> newSession(@RequestHeader(value = "token", required = false) String token) {
+        return Result.ok(agentWorkflowService.newSession(token));
+    }
+
     @GetMapping("session/{sessionId}")
-    public Result<AgentSession> getSession(@PathVariable String sessionId) {
-        return Result.ok(agentWorkflowService.getSession(sessionId));
+    public Result<AgentSession> getSession(@PathVariable String sessionId,
+                                           @RequestHeader(value = "token", required = false) String token) {
+        return Result.ok(agentWorkflowService.getSession(sessionId, token));
+    }
+
+    @GetMapping("session/{sessionId}/messages")
+    public Result<List<AgentMessage>> getMessages(@PathVariable String sessionId,
+                                                  @RequestHeader(value = "token", required = false) String token) {
+        return Result.ok(agentWorkflowService.listMessages(sessionId, token));
     }
 
     @GetMapping("pretriage-report/{sessionId}")
-    public Result<PretriageReport> getReport(@PathVariable String sessionId) {
-        return Result.ok(agentWorkflowService.getReport(sessionId));
+    public Result<PretriageReport> getReport(@PathVariable String sessionId,
+                                             @RequestHeader(value = "token", required = false) String token) {
+        return Result.ok(agentWorkflowService.getReport(sessionId, token));
     }
 
     @PostMapping("pretriage-report/{sessionId}/confirm")
-    public Result<PretriageReport> confirmReport(@PathVariable String sessionId) {
-        return Result.ok(agentWorkflowService.confirmReport(sessionId));
+    public Result<PretriageReport> confirmReport(@PathVariable String sessionId,
+                                                 @RequestHeader(value = "token", required = false) String token) {
+        return Result.ok(agentWorkflowService.confirmReport(sessionId, token));
     }
 
     @GetMapping("tool-calls/{sessionId}")
-    public Result<List<ToolCallRecord>> getToolCalls(@PathVariable String sessionId) {
-        return Result.ok(agentWorkflowService.getToolCalls(sessionId));
+    public Result<List<ToolCallRecord>> getToolCalls(@PathVariable String sessionId,
+                                                     @RequestHeader(value = "token", required = false) String token) {
+        return Result.ok(agentWorkflowService.getToolCalls(sessionId, token));
     }
 }

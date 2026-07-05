@@ -1,17 +1,21 @@
 package com.atguigu.yygh.agent.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AgentSession {
     private String sessionId;
+    private Long userId;
     private String intent = AgentIntent.TRIAGE_BOOKING.name();
     private String stage = AgentStage.SYMPTOM_COLLECTING.name();
     private Map<String, Object> slots = new LinkedHashMap<>();
     private List<String> messages = new ArrayList<>();
     private PretriageReport report;
+    private Date createTime;
+    private Date updateTime;
 
     public String getSessionId() {
         return sessionId;
@@ -19,6 +23,14 @@ public class AgentSession {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getIntent() {
@@ -59,5 +71,21 @@ public class AgentSession {
 
     public void setReport(PretriageReport report) {
         this.report = report;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

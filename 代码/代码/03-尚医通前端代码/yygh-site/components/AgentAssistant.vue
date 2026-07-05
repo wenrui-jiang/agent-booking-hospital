@@ -10,6 +10,16 @@
         <button type="button" class="agent-close" @click="open = false">x</button>
       </div>
 
+      <div v-if="isLoggedIn" class="agent-session-bar">
+        <select v-model="sessionId" :disabled="loadingSessions" @change="switchSession(sessionId)">
+          <option value="">新会话</option>
+          <option v-for="session in sessions" :key="session.sessionId" :value="session.sessionId">
+            {{ session.title || session.lastMessage || '未命名会话' }}
+          </option>
+        </select>
+        <button type="button" :disabled="loadingSessions" @click="newSession">新建</button>
+      </div>
+
       <div class="agent-messages" ref="messages">
         <div v-for="(item, index) in messages" :key="index" :class="['agent-message', item.role]">
           <div class="agent-bubble">{{ item.text }}</div>
@@ -38,10 +48,19 @@
 
 <script>
 import agentApi from '@/api/agent/agent'
+import cookie from 'js-cookie'
 
 export default {
   mounted() {
     this.restoreState()
+    this.refreshLoginState()
+    if (this.isLoggedIn) {
+      this.loadSessions().then(() => {
+        if (this.sessionId) {
+          this.loadMessages(this.sessionId)
+        }
+      })
+    }
   },
 
   watch: {
@@ -66,7 +85,10 @@ export default {
       open: false,
       input: '',
       loading: false,
+      loadingSessions: false,
+      isLoggedIn: false,
       sessionId: '',
+      sessions: [],
       actions: [],
       reportPreview: null,
       messages: [
@@ -79,6 +101,82 @@ export default {
   },
 
   methods: {
+    refreshLoginState() {
+      this.isLoggedIn = !!cookie.get('token')
+    },
+
+    loadSessions() {
+      this.refreshLoginState()
+      if (!this.isLoggedIn) return Promise.resolve()
+      this.loadingSessions = true
+      return agentApi.listSessions().then(response => {
+        this.sessions = response.data || []
+        if (!this.sessionId && this.sessions.length) {
+          this.sessionId = this.sessions[0].sessionId
+        }
+      }).catch(() => {
+        this.sessions = []
+      }).finally(() => {
+        this.loadingSessions = false
+      })
+    },
+
+    newSession() {
+      this.refreshLoginState()
+      if (!this.isLoggedIn) {
+        this.requestLogin()
+        return
+      }
+      this.loadingSessions = true
+      agentApi.newSession().then(response => {
+        const data = response.data || {}
+        this.sessionId = data.sessionId || ''
+        this.actions = []
+        this.reportPreview = null
+        this.messages = [this.defaultWelcomeMessage()]
+        this.saveState()
+        return this.loadSessions()
+      }).finally(() => {
+        this.loadingSessions = false
+      })
+    },
+
+    switchSession(sessionId) {
+      if (!sessionId) {
+        this.actions = []
+        this.reportPreview = null
+        this.messages = [this.defaultWelcomeMessage()]
+        this.saveState()
+        return
+      }
+      this.loadMessages(sessionId)
+    },
+
+    loadMessages(sessionId) {
+      if (!sessionId || !this.isLoggedIn) return
+      this.loadingSessions = true
+      agentApi.getMessages(sessionId).then(response => {
+        const rows = response.data || []
+        this.messages = rows.length ? rows.map(item => ({
+          role: item.role === 'user' ? 'user' : 'assistant',
+          text: item.content
+        })) : [this.defaultWelcomeMessage()]
+        this.actions = []
+        this.reportPreview = null
+        this.saveState()
+        this.$nextTick(this.scrollBottom)
+      }).finally(() => {
+        this.loadingSessions = false
+      })
+    },
+
+    defaultWelcomeMessage() {
+      return {
+        role: 'assistant',
+        text: '您直接告诉我哪里不舒服，我会先追问关键信息，再给出科室建议和挂号下一步。'
+      }
+    },
+
     submit() {
       this.send(this.input)
     },
@@ -122,6 +220,7 @@ export default {
         })
         this.handleSystemActions()
         this.saveState()
+        this.loadSessions()
         this.$nextTick(this.scrollBottom)
       }).catch(() => {
         this.messages.push({
@@ -156,6 +255,7 @@ export default {
       const state = {
         open: this.open,
         sessionId: this.sessionId,
+        sessions: this.sessions,
         actions: this.actions,
         reportPreview: this.reportPreview,
         messages: this.messages
@@ -172,6 +272,7 @@ export default {
         if (state && state.sessionId) {
           this.open = state.open === true
           this.sessionId = state.sessionId || ''
+          this.sessions = state.sessions || []
           this.actions = state.actions || []
           this.reportPreview = state.reportPreview || null
           this.messages = state.messages && state.messages.length ? state.messages : this.messages
@@ -250,6 +351,42 @@ export default {
   color: #fff;
   background: rgba(255, 255, 255, 0.16);
   cursor: pointer;
+}
+
+.agent-session-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #ebeef5;
+  background: #fff;
+}
+
+.agent-session-bar select {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  padding: 0 8px;
+  font-size: 12px;
+  color: #303133;
+  background: #fff;
+}
+
+.agent-session-bar button {
+  width: 56px;
+  height: 30px;
+  border: 1px solid #2f7df6;
+  border-radius: 4px;
+  color: #2f7df6;
+  background: #fff;
+  cursor: pointer;
+}
+
+.agent-session-bar button:disabled {
+  color: #a0cfff;
+  border-color: #a0cfff;
+  cursor: not-allowed;
 }
 
 .agent-messages {

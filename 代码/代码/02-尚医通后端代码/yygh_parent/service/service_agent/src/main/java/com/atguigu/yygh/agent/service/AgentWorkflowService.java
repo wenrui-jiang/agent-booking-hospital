@@ -6,7 +6,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.atguigu.yygh.agent.client.HospToolClient;
 import com.atguigu.yygh.agent.client.OrderToolClient;
 import com.atguigu.yygh.agent.client.UserToolClient;
+import com.atguigu.yygh.agent.model.AgentMessage;
 import com.atguigu.yygh.agent.model.AgentSession;
+import com.atguigu.yygh.agent.model.AgentSessionSummary;
 import com.atguigu.yygh.agent.model.AgentStage;
 import com.atguigu.yygh.agent.model.AgentToolCall;
 import com.atguigu.yygh.agent.model.AgentToolTurn;
@@ -18,7 +20,10 @@ import com.atguigu.yygh.agent.model.DepartmentRecommendation;
 import com.atguigu.yygh.agent.model.PretriageReport;
 import com.atguigu.yygh.agent.model.ToolCallRecord;
 import com.atguigu.yygh.agent.store.AgentMemoryStore;
+import com.atguigu.yygh.common.exception.YyghException;
+import com.atguigu.yygh.common.helper.JwtHelper;
 import com.atguigu.yygh.common.result.Result;
+import com.atguigu.yygh.common.result.ResultCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -29,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AgentWorkflowService {
@@ -59,14 +65,16 @@ public class AgentWorkflowService {
     private OrderToolClient orderToolClient;
 
     public ChatResponse chat(ChatRequest request, String token) {
-        AgentSession session = store.getOrCreate(request.getSessionId());
+        Long userId = currentUserId(token);
+        AgentSession session = store.getOrCreate(request.getSessionId(), userId);
         String message = request.getMessage() == null ? "" : request.getMessage().trim();
         session.getMessages().add("USER: " + message);
+        store.addMessage(session.getSessionId(), userId, "user", message, Collections.emptyMap());
 
         mergeRuleBasedSlots(session, message);
         ChatResponse toolCallingResponse = tryToolCallingChat(session, message, token);
         if (toolCallingResponse != null) {
-            return toolCallingResponse;
+            return finishChat(session, toolCallingResponse);
         }
 
         DeepSeekTriageResult aiResult = analyzeByDeepSeek(session, message);
@@ -77,19 +85,19 @@ public class AgentWorkflowService {
             ChatResponse response = baseResponse(session);
             response.setAnswer("你描述的情况可能存在急症风险。请优先线下急诊或拨打 120，不建议继续普通预约挂号流程。");
             response.getActions().add(new ChatAction("EMERGENCY_GUIDE", "优先急诊/120"));
-            return response;
+            return finishChat(session, response);
         }
 
         if (isSubmitConfirmation(message)) {
-            return handleSubmitConfirmation(session, token);
+            return finishChat(session, handleSubmitConfirmation(session, token));
         }
         if (isBookingConfirmation(message) || shouldContinueBooking(session, message)) {
-            return handleBookingSearch(session, token, aiResult);
+            return finishChat(session, handleBookingSearch(session, token, aiResult));
         }
 
         if (needsMoreSymptomInfo(session, aiResult)) {
             session.setStage(AgentStage.SYMPTOM_COLLECTING.name());
-            return askSymptomFollowUp(session, aiResult);
+            return finishChat(session, askSymptomFollowUp(session, aiResult));
         }
 
         DepartmentRecommendation recommendation = buildRecommendation(session, aiResult);
@@ -110,7 +118,7 @@ public class AgentWorkflowService {
         response.getActions().add(new ChatAction("CONFIRM_DEPARTMENT", "确认科室并查号"));
         response.getActions().add(new ChatAction("VIEW_PRETRIAGE_REPORT", "查看预诊报告"));
         fillReportPreview(response, report);
-        return response;
+        return finishChat(session, response);
     }
 
     private boolean isEmergencyRisk(String message, DeepSeekTriageResult aiResult) {
@@ -139,15 +147,17 @@ public class AgentWorkflowService {
         return false;
     }
 
-    public AgentSession getSession(String sessionId) {
-        return store.getSession(sessionId);
+    public AgentSession getSession(String sessionId, String token) {
+        return store.getSessionForUser(sessionId, requireUserId(token));
     }
 
-    public PretriageReport getReport(String sessionId) {
+    public PretriageReport getReport(String sessionId, String token) {
+        store.getSessionForUser(sessionId, requireUserId(token));
         return store.getReport(sessionId);
     }
 
-    public PretriageReport confirmReport(String sessionId) {
+    public PretriageReport confirmReport(String sessionId, String token) {
+        store.getSessionForUser(sessionId, requireUserId(token));
         PretriageReport report = store.getReport(sessionId);
         if (report != null) {
             report.setConfirmed(true);
@@ -156,8 +166,69 @@ public class AgentWorkflowService {
         return report;
     }
 
-    public List<ToolCallRecord> getToolCalls(String sessionId) {
-        return store.getToolCalls(sessionId);
+    public List<ToolCallRecord> getToolCalls(String sessionId, String token) {
+        return store.getToolCallsForUser(sessionId, requireUserId(token));
+    }
+
+    public List<AgentSessionSummary> listSessions(String token) {
+        return store.listSessions(requireUserId(token));
+    }
+
+    public AgentSession newSession(String token) {
+        return store.createUserSession(requireUserId(token));
+    }
+
+    public List<AgentMessage> listMessages(String sessionId, String token) {
+        return store.listMessages(sessionId, requireUserId(token));
+    }
+
+    private ChatResponse finishChat(AgentSession session, ChatResponse response) {
+        store.saveSession(session);
+        if (response != null && StringUtils.hasText(response.getAnswer())) {
+            session.getMessages().add("ASSISTANT: " + response.getAnswer());
+            store.addMessage(session.getSessionId(), session.getUserId(), "assistant", response.getAnswer(), responseMetadata(response));
+        }
+        return response;
+    }
+
+    private Map<String, Object> responseMetadata(ChatResponse response) {
+        Map<String, Object> metadata = new LinkedHashMap<>();
+        metadata.put("intent", response.getIntent());
+        metadata.put("stage", response.getStage());
+        metadata.put("actions", response.getActions());
+        metadata.put("pretriageReportPreview", response.getPretriageReportPreview());
+        return metadata;
+    }
+
+    private Long requireUserId(String token) {
+        Long userId = currentUserId(token);
+        if (userId == null) {
+            throw new YyghException(ResultCodeEnum.LOGIN_AUTH);
+        }
+        return userId;
+    }
+
+    private Long currentUserId(String token) {
+        String value = normalizeToken(token);
+        if (!StringUtils.hasText(value)) {
+            return null;
+        }
+        try {
+            return JwtHelper.getUserId(value);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private String normalizeToken(String token) {
+        if (!StringUtils.hasText(token)) {
+            return null;
+        }
+        String value = token.trim();
+        if (value.startsWith("Bearer ")) {
+            return value.substring("Bearer ".length()).trim();
+        }
+        return value;
     }
 
     private ChatResponse tryToolCallingChat(AgentSession session, String message, String token) {
