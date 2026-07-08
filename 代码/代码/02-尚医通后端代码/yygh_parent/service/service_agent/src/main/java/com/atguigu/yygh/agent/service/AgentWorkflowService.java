@@ -24,14 +24,17 @@ import com.atguigu.yygh.common.exception.YyghException;
 import com.atguigu.yygh.common.helper.JwtHelper;
 import com.atguigu.yygh.common.result.Result;
 import com.atguigu.yygh.common.result.ResultCodeEnum;
+import com.atguigu.yygh.model.user.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -315,6 +318,9 @@ public class AgentWorkflowService {
         if ("list_patients".equals(name)) {
             return executeListPatients(session, token);
         }
+        if ("create_patient".equals(name)) {
+            return executeCreatePatient(session, args, token);
+        }
         if ("submit_order".equals(name)) {
             if (!isSubmitConfirmation(latestMessage)) {
                 return "submit_order blocked: user has not explicitly confirmed order submission";
@@ -431,6 +437,43 @@ public class AgentWorkflowService {
             session.getSlots().put("patientName", patient.getString("name"));
         }
         return result;
+    }
+
+    private Object executeCreatePatient(AgentSession session, JSONObject args, String token) {
+        return safeCall(session.getSessionId(), "agent.create_patient", args.toJSONString(), () -> {
+            if (!StringUtils.hasText(token)) {
+                return "login required";
+            }
+            if (userToolClient == null) {
+                return "service-user client unavailable";
+            }
+            List<String> missing = missingPatientFields(args);
+            if (!missing.isEmpty()) {
+                Map<String, Object> payload = new LinkedHashMap<>();
+                payload.put("status", "MISSING_FIELDS");
+                payload.put("missingFields", missing);
+                payload.put("requiredFields", "姓名、证件类型、证件号、性别、出生日期、手机号");
+                return payload;
+            }
+
+            Patient patient = buildPatient(args);
+            Result<Object> saveResult = userToolClient.savePatient(patient, token);
+            Result<Object> listResult = userToolClient.listPatients(token);
+            JSONObject created = findPatientByIdentity(resultArray(listResult), patient.getName(), patient.getCertificatesNo());
+            if (created != null) {
+                session.getSlots().put("patientId", created.getLong("id"));
+                session.getSlots().put("patientName", created.getString("name"));
+            } else {
+                session.getSlots().put("patientName", patient.getName());
+            }
+
+            Map<String, Object> payload = new LinkedHashMap<>();
+            payload.put("status", "CREATED");
+            payload.put("saveResult", summarizeResult(saveResult));
+            payload.put("patient", created == null ? patient : created);
+            payload.put("nextAction", hasBookingCandidate(session) ? "READY_TO_CONFIRM_BOOKING" : "CONTINUE_BOOKING");
+            return payload;
+        });
     }
 
     private Object executeSubmitOrder(AgentSession session, JSONObject args, String token) {
@@ -972,6 +1015,96 @@ public class AgentWorkflowService {
             response.getPretriageReportPreview().put("departmentRecommendation", report.getDepartmentRecommendation().getPrimary());
         }
         response.getPretriageReportPreview().put("doctorCopyText", report.getDoctorCopyText());
+    }
+
+    private List<String> missingPatientFields(JSONObject args) {
+        List<String> missing = new ArrayList<>();
+        if (!StringUtils.hasText(args.getString("name"))) {
+            missing.add("name");
+        }
+        if (!StringUtils.hasText(firstText(args.getString("certificatesType"), args.getString("certificateType")))) {
+            missing.add("certificatesType");
+        }
+        if (!StringUtils.hasText(firstText(args.getString("certificatesNo"), args.getString("certificateNo")))) {
+            missing.add("certificatesNo");
+        }
+        if (normalizeInteger(firstText(args.getString("sex"), args.getString("gender"))) == null) {
+            missing.add("sex");
+        }
+        if (!StringUtils.hasText(args.getString("birthdate"))) {
+            missing.add("birthdate");
+        }
+        if (!StringUtils.hasText(args.getString("phone"))) {
+            missing.add("phone");
+        }
+        return missing;
+    }
+
+    private Patient buildPatient(JSONObject args) {
+        Patient patient = new Patient();
+        patient.setName(args.getString("name"));
+        patient.setCertificatesType(firstText(args.getString("certificatesType"), args.getString("certificateType")));
+        patient.setCertificatesNo(firstText(args.getString("certificatesNo"), args.getString("certificateNo")));
+        patient.setSex(normalizeInteger(firstText(args.getString("sex"), args.getString("gender"))));
+        patient.setBirthdate(parseBirthdate(args.getString("birthdate")));
+        patient.setPhone(args.getString("phone"));
+        patient.setIsMarry(defaultInteger(normalizeInteger(args.getString("isMarry")), 0));
+        patient.setIsInsure(defaultInteger(normalizeInteger(args.getString("isInsure")), 0));
+        patient.setProvinceCode(args.getString("provinceCode"));
+        patient.setCityCode(args.getString("cityCode"));
+        patient.setDistrictCode(args.getString("districtCode"));
+        patient.setAddress(args.getString("address"));
+        patient.setContactsName(args.getString("contactsName"));
+        patient.setContactsCertificatesType(firstText(args.getString("contactsCertificatesType"), patient.getCertificatesType()));
+        patient.setContactsCertificatesNo(firstText(args.getString("contactsCertificatesNo"), patient.getCertificatesNo()));
+        patient.setContactsPhone(firstText(args.getString("contactsPhone"), patient.getPhone()));
+        patient.setCardNo(args.getString("cardNo"));
+        patient.setStatus("1");
+        return patient;
+    }
+
+    private Date parseBirthdate(String value) {
+        LocalDate localDate = LocalDate.parse(value, DATE_FORMATTER);
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
+    private Integer normalizeInteger(String value) {
+        if (!StringUtils.hasText(value)) {
+            return null;
+        }
+        String text = value.trim();
+        if ("男".equals(text) || "male".equalsIgnoreCase(text) || "是".equals(text) || "有".equals(text) || "已婚".equals(text)) {
+            return 1;
+        }
+        if ("女".equals(text) || "female".equalsIgnoreCase(text) || "否".equals(text) || "无".equals(text) || "未婚".equals(text)) {
+            return 0;
+        }
+        try {
+            return Integer.valueOf(text);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private Integer defaultInteger(Integer value, Integer defaultValue) {
+        return value == null ? defaultValue : value;
+    }
+
+    private JSONObject findPatientByIdentity(JSONArray patients, String name, String certificatesNo) {
+        if (patients == null) {
+            return null;
+        }
+        for (int i = 0; i < patients.size(); i++) {
+            JSONObject patient = patients.getJSONObject(i);
+            if (patient == null) {
+                continue;
+            }
+            if (String.valueOf(name).equals(patient.getString("name"))
+                    && String.valueOf(certificatesNo).equals(patient.getString("certificatesNo"))) {
+                return patient;
+            }
+        }
+        return firstObject(patients);
     }
 
     private Object safeCall(String sessionId, String toolName, String argumentsText, ToolExecutor executor) {

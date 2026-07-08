@@ -139,6 +139,19 @@ public class DeepSeekToolCallingClient {
                         .fluentPut("workDate", str("日期，格式 yyyy-MM-dd"))));
         tools.add(tool("list_patients", "查询当前登录账号下的就诊人。提交挂号前必须调用。",
                 props()));
+        tools.add(tool("create_patient", "根据用户提供的实名/就诊人信息新增就诊人。挂号缺少就诊人时可调用；信息不全时先追问缺失项。",
+                props()
+                        .fluentPut("name", str("就诊人姓名，必填"))
+                        .fluentPut("certificatesType", str("证件类型，身份证填 10，必填"))
+                        .fluentPut("certificatesNo", str("证件号码，必填"))
+                        .fluentPut("sex", num("性别，1 男，0 女，必填"))
+                        .fluentPut("birthdate", str("出生日期，格式 yyyy-MM-dd，必填"))
+                        .fluentPut("phone", str("手机号，必填"))
+                        .fluentPut("isMarry", num("是否已婚，1 是，0 否，可选"))
+                        .fluentPut("isInsure", num("是否有医保，1 是，0 否，可选"))
+                        .fluentPut("address", str("详细地址，可选"))
+                        .fluentPut("contactsName", str("联系人姓名，可选"))
+                        .fluentPut("contactsPhone", str("联系人手机号，可选"))));
         tools.add(tool("submit_order", "创建挂号订单。只有用户明确确认挂号后才能调用。",
                 props()
                         .fluentPut("scheduleId", str("排班号源 id"))
@@ -179,6 +192,7 @@ public class DeepSeekToolCallingClient {
         return "你是医疗预约 Agent，工作方式是自主选择工具完成导诊、查号和挂号。"
                 + "你必须先理解患者症状，必要时追问；信息足够时推荐科室。"
                 + "当用户想挂号时，按顺序调用 search_hospitals、list_departments、find_schedule_rules、find_schedule_list、list_patients。"
+                + "如果当前账号没有就诊人，但用户提供了实名信息，可以调用 create_patient 新增；缺少姓名、证件类型、证件号、性别、出生日期、手机号时必须追问补全。"
                 + "只有用户明确说确认挂号、提交订单、确认下单时，才允许调用 submit_order。"
                 + "不要确诊疾病，不要编造工具结果；工具结果缺失时直接说明需要补充的信息。"
                 + "回复要简洁，中文输出。";
