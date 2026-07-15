@@ -16,11 +16,11 @@ cp deploy/cloud/.env.example deploy/cloud/.env
 vim deploy/cloud/.env
 docker compose --env-file deploy/cloud/.env -f deploy/cloud/docker-compose.yml up -d
 
-cd "代码/代码/02-尚医通后端代码/yygh_parent"
+cd "backend/yygh_parent"
 mvn -DskipTests package
 
 cd -
-cd "代码/代码/03-尚医通前端代码/yygh-site"
+cd "frontend/yygh-site"
 npm install
 npm run build
 

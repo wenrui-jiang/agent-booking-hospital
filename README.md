@@ -14,9 +14,10 @@ OneDrive 中的旧项目目录只作为参考、归档或 GitHub clone 位置使
 
 ## 主要目录
 
-- `代码\代码\02-尚医通后端代码\yygh_parent`：Spring Cloud / Maven 多模块后端主工程。
-- `代码\代码\03-尚医通前端代码\yygh-site`：Nuxt 前端。
-- `资料\05-医院接口模拟系统\hospital-manage`：医院接口模拟系统资料。
+- `backend\yygh_parent`：Spring Cloud / Maven 多模块后端主工程。
+- `frontend\yygh-site`：Nuxt 前端。
+- `agent-langgraph`：LangGraph 医疗预约智能体服务。
+- `deploy\local-data`：本地演示 seed 数据。
 - `docs`：本地启动、Agent 集成、功能闭环等说明。
 - `scripts`：本机启动、停止、验证和数据导入脚本。
 
@@ -45,14 +46,14 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\full-stack.ps1 s
 后端：
 
 ```powershell
-cd "E:\JavaCode2\agent-booking-hospital\代码\代码\02-尚医通后端代码\yygh_parent"
+cd "E:\JavaCode2\agent-booking-hospital\backend\yygh_parent"
 D:\apache-maven-3.6.1\bin\mvn.cmd clean package -DskipTests
 ```
 
 前端：
 
 ```powershell
-cd "E:\JavaCode2\agent-booking-hospital\代码\代码\03-尚医通前端代码\yygh-site"
+cd "E:\JavaCode2\agent-booking-hospital\frontend\yygh-site"
 npm ci --registry=https://registry.npmmirror.com
 $env:NODE_OPTIONS='--openssl-legacy-provider'
 npm run build

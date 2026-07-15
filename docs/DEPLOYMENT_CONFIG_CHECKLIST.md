@@ -23,7 +23,7 @@
 ### 2.1 Agent / DeepSeek
 
 - 服务：`service_agent`
-- 代码位置：`代码/代码/02-尚医通后端代码/yygh_parent/service/service_agent/src/main/resources/application.properties`
+- 代码位置：`backend/yygh_parent/service/service_agent/src/main/resources/application.properties`
 - 关键项：
   - `deepseek.enabled=true`
   - `deepseek.base-url=https://api.deepseek.com`
@@ -39,7 +39,7 @@
 ### 2.2 邮件验证码（SMTP）
 
 - 服务：`service_msm`
-- 代码位置：`代码/代码/02-尚医通后端代码/yygh_parent/service/service_msm/src/main/java/com/atguigu/yygh/msm/service/impl/MsmServiceImpl.java`
+- 代码位置：`backend/yygh_parent/service/service_msm/src/main/java/com/atguigu/yygh/msm/service/impl/MsmServiceImpl.java`
 - 关键项（通过 `yygh.mail.*` 注入）：
   - `yygh.mail.enabled`（默认 `false`）
   - `yygh.mail.host`

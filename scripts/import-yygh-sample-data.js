@@ -1,8 +1,8 @@
 var root = typeof DATA_ROOT === "string" ? DATA_ROOT : ".";
-var dataDir = typeof DATA_DIR === "string" ? DATA_DIR : root + "/资料/05-医院接口模拟系统/示例数据";
-var hospitalPath = dataDir + "/hospital.json";
-var departmentPath = dataDir + "/department.json";
-var schedulePath = dataDir + "/schedule.json";
+var dataDir = typeof DATA_DIR === "string" ? DATA_DIR : root + "/deploy/local-data/mongodb/yygh_hosp";
+var hospitalPath = dataDir + "/Hospital.json";
+var departmentPath = dataDir + "/Department.json";
+var schedulePath = dataDir + "/Schedule.json";
 
 function parseJsonFile(path) {
   return JSON.parse(cat(path));

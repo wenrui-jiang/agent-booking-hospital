@@ -39,6 +39,41 @@ services:
     volumes:
       - yygh_mongo:/data/db
 
+  pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: yygh-pgvector
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      POSTGRES_DB: yygh_agent_vector
+      POSTGRES_USER: yygh_agent
+      POSTGRES_PASSWORD: ${PGVECTOR_PASSWORD}
+      TZ: Asia/Shanghai
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - yygh_pgvector:/var/lib/postgresql/data
+
+  agent-langgraph:
+    build:
+      context: ../../agent-langgraph
+    container_name: yygh-agent-langgraph
+    restart: unless-stopped
+    logging: *default-logging
+    environment:
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      DEEPSEEK_BASE_URL: ${DEEPSEEK_BASE_URL:-https://api.deepseek.com}
+      DEEPSEEK_MODEL: ${DEEPSEEK_MODEL:-deepseek-v4-pro}
+      JAVA_AGENT_BASE_URL: ${JAVA_AGENT_BASE_URL:-http://host.docker.internal:8210}
+      PGVECTOR_DSN: postgresql://yygh_agent:${PGVECTOR_PASSWORD}@pgvector:5432/yygh_agent_vector
+      YYGH_AGENT_INTERNAL_SECRET: ${YYGH_AGENT_INTERNAL_SECRET:-local-dev-agent-secret}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "127.0.0.1:8211:8211"
+    depends_on:
+      - pgvector
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: yygh-rabbitmq
@@ -68,4 +103,5 @@ volumes:
   yygh_mysql:
   yygh_redis:
   yygh_mongo:
+  yygh_pgvector:
   yygh_rabbitmq:

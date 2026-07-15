@@ -8,17 +8,15 @@
 
 主要目录：
 
-- `代码\代码\02-尚医通后端代码\yygh_parent`：Spring Cloud 多模块后端主工程。
-- `代码\代码\03-尚医通前端代码`：前端压缩包，其中 `yygh-site.zip` 可展开。
-- `资料\资料\02-项目sql语句\sql`：平台数据库建表和初始化数据。
-- `资料\资料\05-医院接口模拟系统\hospital-manage`：医院模拟系统。
-- `笔记\笔记`：课程文档和流程图。
+- `backend\yygh_parent`：Spring Cloud 多模块后端主工程。
+- `frontend\yygh-site`：Nuxt 前端工程。
+- `docs\sql`：平台数据库建表和初始化数据。
+- `backend\yygh_parent\hospital-manage`：医院模拟系统模块。
+- `deploy\local-data\mongodb\yygh_hosp`：本地演示医院、科室、排班 MongoDB seed。
 
 完整性检查结果：
 
-- `笔记.zip` 与 `笔记` 目录一致。
-- `资料.zip` 与 `资料` 目录一致。曾发现 4 个 HTML 文件与 zip 不一致，已从 zip 恢复。
-- `yygh-site.zip` 已展开。
+- 原课程资料已收敛为当前仓库需要的源码、SQL、seed 数据和文档。
 - `vue-admin-template-master.zip` 被 Windows 安全策略拦截，不建议绕过。
 
 ## 2. 必要软件
@@ -121,18 +119,17 @@ Test-NetConnection 127.0.0.1 -Port 5672
 导入平台 SQL：
 
 ```powershell
-Copy-Item "资料\资料\02-项目sql语句\sql\yygh表结构.sql" "D:\Downloads\yygh-env\sql\schema.sql" -Force
-Copy-Item "资料\资料\02-项目sql语句\sql\yygh初始化数据.sql" "D:\Downloads\yygh-env\sql\data.sql" -Force
+Copy-Item "docs\sql\yygh表结构.sql" "D:\Downloads\yygh-env\sql\schema.sql" -Force
+Copy-Item "docs\sql\yygh初始化数据.sql" "D:\Downloads\yygh-env\sql\data.sql" -Force
 
 D:\mysql-8.0.27-winx64\bin\mysql.exe -uroot -p1234 --default-character-set=utf8mb4 -e "source D:/Downloads/yygh-env/sql/schema.sql"
 D:\mysql-8.0.27-winx64\bin\mysql.exe -uroot -p1234 --default-character-set=utf8mb4 yygh_cmn -e "source D:/Downloads/yygh-env/sql/data.sql"
 ```
 
-导入医院模拟系统 SQL：
+恢复 MongoDB 医院演示数据：
 
 ```powershell
-Copy-Item "资料\资料\05-医院接口模拟系统\hospital-manage\资源文件\sql\表结构.sql" "D:\Downloads\yygh-env\sql\hospital-manage-schema.sql" -Force
-D:\mysql-8.0.27-winx64\bin\mysql.exe -uroot -p1234 --default-character-set=utf8mb4 -e "source D:/Downloads/yygh-env/sql/hospital-manage-schema.sql"
+& "D:\MongoDB\mongodb-win32-x86_64-windows-4.4.30\bin\mongo.exe" yygh_hosp deploy\local-data\mongodb\yygh_hosp\import-yygh-hosp-seed.js
 ```
 
 验证：
@@ -156,7 +153,7 @@ D:\mysql-8.0.27-winx64\bin\mysql.exe -uroot -p1234 -e "SELECT table_schema, COUN
 ```powershell
 $env:JAVA_HOME="D:\JavaJDK"
 $env:Path="$env:JAVA_HOME\bin;$env:Path"
-cd "代码\代码\02-尚医通后端代码\yygh_parent"
+cd "backend\yygh_parent"
 mvn -DskipTests package
 ```
 
@@ -170,7 +167,7 @@ mvn -DskipTests package
 $root=(Resolve-Path ".").Path
 $logDir=Join-Path $root "runtime-logs"
 $java="D:\JavaJDK\bin\java.exe"
-$jar=(Resolve-Path "代码\代码\02-尚医通后端代码\yygh_parent\service\service_hosp\target\service-hosp.jar").Path
+$jar=(Resolve-Path "backend\yygh_parent\service\service_hosp\target\service-hosp.jar").Path
 $args='-jar "{0}" "--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai" --spring.datasource.username=$env:YYGH_MYSQL_USERNAME --spring.datasource.password=$env:YYGH_MYSQL_PASSWORD --spring.data.mongodb.uri=mongodb://127.0.0.1:27017/yygh_hosp --spring.rabbitmq.host=127.0.0.1 --spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848' -f $jar
 Start-Process -FilePath $java -ArgumentList $args -WorkingDirectory $root -RedirectStandardOutput (Join-Path $logDir "service-hosp.local.out.log") -RedirectStandardError (Join-Path $logDir "service-hosp.local.err.log") -WindowStyle Hidden
 ```
@@ -202,7 +199,7 @@ Invoke-RestMethod -Uri "http://127.0.0.1:8201/admin/hosp/hospitalSet/findAll" -M
 
 下一步先补两件事：
 
-- 启动 `hospital-manage` 并导入/录入医院、科室、排班模拟数据。
+- 使用 `deploy\local-data\mongodb\yygh_hosp` 恢复医院、科室、排班模拟数据；如需联调医院端，再启动 `backend\yygh_parent\hospital-manage`。
 - 启动 `service_cmn/service_user/service_order/gateway`，把前台预约链路串起来。
 
 完成后再进入 Agent 改造，不要在环境还不稳定时改业务代码。

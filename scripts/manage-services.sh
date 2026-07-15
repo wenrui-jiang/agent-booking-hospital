@@ -9,6 +9,7 @@ PID_DIR="$LOG_DIR/pids"
 LOCAL_ENV_FILE="${YYGH_LOCAL_ENV_FILE:-$ROOT/.env.mail.local}"
 CLOUD_ENV_FILE="$ROOT/deploy/cloud/.env"
 MYSQL_ENV_FILE="$ROOT/.env.mysql.local"
+AGENT_ENV_FILE="$ROOT/.env.agent.local"
 
 if [[ -f "$CLOUD_ENV_FILE" ]]; then
   # shellcheck disable=SC1090
@@ -23,6 +24,11 @@ fi
 if [[ -f "$MYSQL_ENV_FILE" ]]; then
   # shellcheck disable=SC1090
   source "$MYSQL_ENV_FILE"
+fi
+
+if [[ -f "$AGENT_ENV_FILE" ]]; then
+  # shellcheck disable=SC1090
+  source "$AGENT_ENV_FILE"
 fi
 
 MYSQL_USERNAME="${YYGH_MYSQL_USERNAME:-root}"
@@ -111,6 +117,7 @@ if ! command -v npm >/dev/null 2>&1; then
 fi
 
 service_names=(
+  agent-langgraph
   service-hosp
   service-cmn
   service-user
@@ -144,6 +151,16 @@ service_pid() {
   if [[ "$name" == "yygh-site" && -n "${FRONTEND_ROOT:-}" ]]; then
     local detected_pid
     detected_pid="$(pgrep -f "$FRONTEND_ROOT/node_modules/(\\.bin/nuxt|nuxt/bin/nuxt.js) start" | head -n 1 || true)"
+    if [[ -n "$detected_pid" ]]; then
+      echo "$detected_pid" >"$file"
+      echo "$detected_pid"
+      return 0
+    fi
+  fi
+  if [[ "$name" == "agent-langgraph" ]]; then
+    local detected_pid
+    local port="${YYGH_LANGGRAPH_PORT:-8212}"
+    detected_pid="$(pgrep -f "uvicorn app.main:app .*--port $port" | head -n 1 || true)"
     if [[ -n "$detected_pid" ]]; then
       echo "$detected_pid" >"$file"
       echo "$detected_pid"
@@ -230,7 +247,42 @@ start_npm_service() {
   echo "Started $name (PID $(cat "$(pid_file "$name")"))"
 }
 
+start_langgraph_service() {
+  local name="agent-langgraph"
+  local workdir="$ROOT/agent-langgraph"
+  local port="${YYGH_LANGGRAPH_PORT:-8212}"
+  if service_pid "$name" >/dev/null; then
+    echo "$name already running (PID $(service_pid "$name"))"
+    return
+  fi
+  if [[ ! -d "$workdir" ]]; then
+    echo "[ERROR] Cannot find agent-langgraph under $workdir."
+    exit 1
+  fi
+  if ! command -v python3 >/dev/null 2>&1; then
+    echo "[ERROR] Cannot find python3 for agent-langgraph."
+    exit 1
+  fi
+  prepare_service_logs "$name"
+  (
+    cd "$workdir"
+    nohup env \
+      DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
+      DEEPSEEK_BASE_URL="${DEEPSEEK_BASE_URL:-https://api.deepseek.com}" \
+      DEEPSEEK_MODEL="${DEEPSEEK_MODEL:-deepseek-v4-pro}" \
+      JAVA_AGENT_BASE_URL="${JAVA_AGENT_BASE_URL:-http://127.0.0.1:8210}" \
+      PGVECTOR_DSN="${PGVECTOR_DSN:-}" \
+      YYGH_AGENT_INTERNAL_SECRET="${YYGH_AGENT_INTERNAL_SECRET:-local-dev-agent-secret}" \
+      python3 -m uvicorn app.main:app --host 127.0.0.1 --port "$port" \
+      >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
+    echo $! >"$(pid_file "$name")"
+  )
+  echo "Started $name (PID $(cat "$(pid_file "$name")"))"
+}
+
 start_all() {
+  start_langgraph_service
+
   start_java_service service-hosp "$BACKEND_ROOT/service/service_hosp" 'service-hosp*.jar' \
     '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai' \
     "--spring.datasource.username=$MYSQL_USERNAME" \
@@ -291,7 +343,9 @@ start_all() {
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848'
 
   start_java_service service-agent "$BACKEND_ROOT/service/service_agent" '*.jar' \
-    '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848'
+    '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848' \
+    '--agent.langgraph.enabled=true' \
+    "--agent.langgraph.base-url=${YYGH_LANGGRAPH_BASE_URL:-http://127.0.0.1:8212}"
 
   start_java_service service-gateway "$BACKEND_ROOT/service_gateway" '*.jar' \
     '--server.port=8080' \

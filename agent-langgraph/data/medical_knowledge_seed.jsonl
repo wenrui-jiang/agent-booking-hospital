@@ -1,0 +1,10 @@
+{"memory_type":"MEDICAL_KNOWLEDGE","title":"呼吸内科导诊","department":"呼吸内科","content":"咳嗽、咽痛、发热、鼻塞、流涕、咳痰、喘息等呼吸系统症状，普通情况可优先考虑呼吸内科；若出现严重呼吸困难、口唇发紫、胸痛或意识异常，应优先急诊。"}
+{"memory_type":"MEDICAL_KNOWLEDGE","title":"耳鼻喉科导诊","department":"耳鼻喉科","content":"以咽痛、声音嘶哑、鼻塞流涕、耳痛、听力下降、鼻出血等耳鼻咽喉局部症状为主时，可考虑耳鼻喉科；伴高热、呼吸困难时应及时急诊评估。"}
+{"memory_type":"MEDICAL_KNOWLEDGE","title":"消化内科导诊","department":"消化内科","content":"腹痛、腹泻、恶心呕吐、反酸、胃痛、腹胀、便秘等消化道症状可优先考虑消化内科；剧烈腹痛、呕血、黑便、持续高热或脱水明显时应优先急诊。"}
+{"memory_type":"MEDICAL_KNOWLEDGE","title":"心血管内科导诊","department":"心血管内科","content":"心悸、胸闷、活动后气短、血压异常等可考虑心血管内科；胸痛压榨感、严重胸闷、大汗、濒死感、晕厥等需立即急诊或拨打 120。"}
+{"memory_type":"MEDICAL_KNOWLEDGE","title":"神经内科导诊","department":"神经内科","content":"头痛、头晕、肢体麻木、记忆下降、睡眠障碍等可考虑神经内科；突发偏瘫、口角歪斜、言语不清、抽搐、意识障碍或剧烈头痛需急诊。"}
+{"memory_type":"MEDICAL_KNOWLEDGE","title":"皮肤科导诊","department":"皮肤科","content":"皮疹、瘙痒、红斑、脱屑、痤疮、疑似过敏等皮肤表现可考虑皮肤科；若伴呼吸困难、喉头紧缩、全身严重过敏反应，应优先急诊。"}
+{"memory_type":"MEDICAL_KNOWLEDGE","title":"骨科导诊","department":"骨科","content":"关节痛、腰腿痛、扭伤、骨折后复查、运动损伤等可考虑骨科；开放性外伤、大出血、明显畸形或不能活动时应急诊。"}
+{"memory_type":"MEDICAL_KNOWLEDGE","title":"普通内科导诊","department":"普通内科","content":"症状不明确、多个系统轻中度不适、慢性病常规咨询或首诊分诊不清时，可选择普通内科作为首诊入口。"}
+{"memory_type":"MEDICAL_KNOWLEDGE","title":"挂号确认规则","department":"","content":"智能体只能在用户二次确认后创建挂号订单。确认卡应展示医院、科室、日期、时间段、医生或号源、费用、就诊人；未登录或无就诊人时不得下单。"}
+{"memory_type":"MEDICAL_KNOWLEDGE","title":"隐私与向量库规则","department":"","content":"向量库只保存科室知识、医院规则、脱敏会话摘要和偏好。不保存身份证号、手机号、支付信息、完整病历原文和其他不必要敏感信息。"}

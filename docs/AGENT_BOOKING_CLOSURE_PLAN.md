@@ -4,16 +4,16 @@
 
 项目使用 MongoDB 保存医院核心业务数据。`Hospital`、`Department`、`Schedule` 是 Mongo 集合，`service_hosp` 通过 `MongoRepository`/`MongoTemplate` 读写；MySQL 主要存平台配置、用户、就诊人、订单、医院签名配置等。当前前端 3000 看不到医院，不是因为没登录，而是 MongoDB 里的医院、科室、排班数据为空或未正确导入。
 
-本地 `资料` 已经包含医院模拟数据，不需要先联网搜索医院：`资料\05-医院接口模拟系统\示例数据\hospital.json`、`department.json`、`schedule.json`，以及 `hospital-manage` 模拟医院系统。
+本地仓库已经包含医院模拟数据，不需要先联网搜索医院：MongoDB seed 位于 `deploy/local-data/mongodb/yygh_hosp`，`hospital-manage` 模拟医院系统位于 `backend/yygh_parent/hospital-manage`。
 
 ## Key Changes
 
 - 每次继续任务先读取本文档再动态 replan。
 - 启动并校验本机 MongoDB `127.0.0.1:27017/yygh_hosp`，确认 `service_hosp` 和 `service_order` 使用本地 MongoDB 覆盖配置。
-- 导入 MySQL 平台基础表和初始化字典：`资料\02-项目sql语句\sql\yygh表结构.sql`、`yygh初始化数据.sql`。
-- 导入 `hospital-manage` 的 MySQL 表结构：`资料\05-医院接口模拟系统\hospital-manage\资源文件\sql\表结构.sql`。
-- 优先使用 `hospital-manage` 原课程链路导入医院数据：模拟医院系统读取示例 JSON，签名调用 `service_hosp` 的 `/api/hosp/saveHospital`、`/api/hosp/saveDepartment`、`/api/hosp/saveSchedule`，由平台写入 MongoDB。
-- 若 `hospital-manage` 启动或编码有问题，采用兜底方案：写一个一次性导入脚本，把 `hospital.json`、`department.json`、`schedule.json` 转为 `Hospital`、`Department`、`Schedule` 集合文档，并修正排班日期为当前可预约日期。
+- 导入 MySQL 平台基础表和初始化字典：`docs\sql\yygh表结构.sql`、`yygh初始化数据.sql`。
+- 若需要模拟医院系统，使用 `backend/yygh_parent/hospital-manage` 模块。
+- 优先使用 `deploy/local-data/mongodb/yygh_hosp/import-yygh-hosp-seed.js` 恢复演示医院数据。
+- 若需要重新生成演示数据，可用 `scripts/import-yygh-sample-data.js` 把 `Hospital.json`、`Department.json`、`Schedule.json` 转为 `Hospital`、`Department`、`Schedule` 集合文档，并修正排班日期为当前可预约日期。
 - 验证前端医院数据接口返回非空：`/api/hosp/hospital/findHospList/1/10`、`/api/hosp/hospital/department/{hoscode}`、`/api/hosp/hospital/auth/getBookingScheduleRule/1/7/{hoscode}/{depcode}`。
 - 登录绕过采用开发模式固定短信验证码或 Redis 写入验证码；同时准备一个默认就诊人，保证 Agent 能完成挂号订单创建。
 - Agent 挂号闭环暂不接支付：创建订单后直接返回“预约订单已创建，支付环节本地演示已跳过/模拟完成”，展示 `orderId`、医院、科室、时间、取号时间和取号地址。

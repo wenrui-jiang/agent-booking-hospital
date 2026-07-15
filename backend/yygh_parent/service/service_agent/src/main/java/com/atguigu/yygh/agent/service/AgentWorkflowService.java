@@ -1,0 +1,1586 @@
+package com.atguigu.yygh.agent.service;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.atguigu.yygh.agent.client.HospToolClient;
+import com.atguigu.yygh.agent.client.OrderToolClient;
+import com.atguigu.yygh.agent.client.UserToolClient;
+import com.atguigu.yygh.agent.model.AgentMessage;
+import com.atguigu.yygh.agent.model.AgentSession;
+import com.atguigu.yygh.agent.model.AgentSessionSummary;
+import com.atguigu.yygh.agent.model.AgentStage;
+import com.atguigu.yygh.agent.model.AgentToolCall;
+import com.atguigu.yygh.agent.model.AgentToolTurn;
+import com.atguigu.yygh.agent.model.AgentToolExecuteRequest;
+import com.atguigu.yygh.agent.model.ChatAction;
+import com.atguigu.yygh.agent.model.ChatRequest;
+import com.atguigu.yygh.agent.model.ChatResponse;
+import com.atguigu.yygh.agent.model.DeepSeekTriageResult;
+import com.atguigu.yygh.agent.model.DepartmentRecommendation;
+import com.atguigu.yygh.agent.model.PretriageReport;
+import com.atguigu.yygh.agent.model.ToolCallRecord;
+import com.atguigu.yygh.agent.store.AgentMemoryStore;
+import com.atguigu.yygh.common.exception.YyghException;
+import com.atguigu.yygh.common.helper.JwtHelper;
+import com.atguigu.yygh.common.result.Result;
+import com.atguigu.yygh.common.result.ResultCodeEnum;
+import com.atguigu.yygh.model.user.Patient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@Service
+public class AgentWorkflowService {
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    @Autowired
+    private AgentMemoryStore store;
+
+    @Autowired
+    private TriageRuleEngine triageRuleEngine;
+
+    @Autowired
+    private PretriageReportService pretriageReportService;
+
+    @Autowired
+    private DeepSeekTriageClient deepSeekTriageClient;
+
+    @Autowired
+    private DeepSeekToolCallingClient deepSeekToolCallingClient;
+
+    @Autowired
+    private LangGraphAgentClient langGraphAgentClient;
+
+    @Autowired
+    private AgentDateTools agentDateTools;
+
+    @Autowired(required = false)
+    private HospToolClient hospToolClient;
+
+    @Autowired(required = false)
+    private UserToolClient userToolClient;
+
+    @Autowired(required = false)
+    private OrderToolClient orderToolClient;
+
+    private static final Pattern CITY_PATTERN = Pattern.compile("(北京|上海|广州|深圳|天津|重庆|杭州|南京|成都|武汉|西安|郑州)");
+
+    public ChatResponse chat(ChatRequest request, String token) {
+        Long userId = currentUserId(token);
+        AgentSession session = safeGetOrCreate(request.getSessionId(), userId);
+        mergeRequestHistory(session, request.getMessages());
+        String rawMessage = StringUtils.hasText(request.getMessage()) ? request.getMessage() : request.getLatestMessage();
+        String message = rawMessage == null ? "" : rawMessage.trim();
+        session.getMessages().add("USER: " + message);
+        safeAddMessage(session.getSessionId(), userId, "user", message, Collections.emptyMap());
+
+        mergeRuleBasedSlots(session, message);
+        ChatResponse langGraphResponse = tryLangGraphChat(session, message, token, request.getMessages());
+        if (langGraphResponse != null) {
+            return finishChat(session, langGraphResponse);
+        }
+
+        ChatResponse toolCallingResponse = tryToolCallingChat(session, message, token);
+        if (toolCallingResponse != null) {
+            return finishChat(session, toolCallingResponse);
+        }
+
+        DeepSeekTriageResult aiResult = analyzeByDeepSeek(session, message);
+        mergeDeepSeekSlots(session, aiResult);
+
+        if (isEmergencyRisk(message, aiResult)) {
+            session.setStage(AgentStage.EMERGENCY_GUIDING.name());
+            ChatResponse response = baseResponse(session);
+            response.setAnswer("你描述的情况可能存在急症风险。请优先线下急诊或拨打 120，不建议继续普通预约挂号流程。");
+            response.getActions().add(new ChatAction("EMERGENCY_GUIDE", "优先急诊/120"));
+            return finishChat(session, response);
+        }
+
+        if (isSubmitConfirmation(message)) {
+            return finishChat(session, handleSubmitConfirmation(session, token));
+        }
+        if (isBookingConfirmation(message) || shouldContinueBooking(session, message)) {
+            return finishChat(session, handleBookingSearch(session, token, aiResult));
+        }
+
+        if (needsMoreSymptomInfo(session, aiResult)) {
+            session.setStage(AgentStage.SYMPTOM_COLLECTING.name());
+            return finishChat(session, askSymptomFollowUp(session, aiResult));
+        }
+
+        DepartmentRecommendation recommendation = buildRecommendation(session, aiResult);
+        session.getSlots().put("department", recommendation.getPrimary());
+        session.getSlots().put("depname", recommendation.getPrimary());
+        session.setStage(AgentStage.DEPARTMENT_RECOMMENDING.name());
+
+        PretriageReport report = safeGetReport(session.getSessionId());
+        if (report == null) {
+            report = pretriageReportService.generate(session, recommendation);
+            safeSaveReport(report);
+        }
+
+        ChatResponse response = baseResponse(session);
+        response.setAnswer("我建议优先挂 " + recommendation.getPrimary() + "。"
+                + recommendation.getReason()
+                + " 如果认可这个方向，我可以继续帮你查询医院、科室和可预约时间。");
+        response.getActions().add(new ChatAction("CONFIRM_DEPARTMENT", "确认科室并查号"));
+        response.getActions().add(new ChatAction("VIEW_PRETRIAGE_REPORT", "查看预诊报告"));
+        fillReportPreview(response, report);
+        return finishChat(session, response);
+    }
+
+    private boolean isEmergencyRisk(String message, DeepSeekTriageResult aiResult) {
+        boolean modelEmergency = Boolean.TRUE.equals(aiResult == null ? null : aiResult.getEmergency());
+        boolean ruleEmergency = triageRuleEngine.containsEmergency(message);
+        if (!modelEmergency && !ruleEmergency) {
+            return false;
+        }
+        return !containsNegatedEmergency(message);
+    }
+
+    private boolean containsNegatedEmergency(String message) {
+        String text = message == null ? "" : message.trim();
+        String[] emergencyKeywords = {"胸痛", "胸闷", "呼吸困难", "喘不上气", "昏迷", "意识不清", "大出血", "剧烈头痛", "抽搐"};
+        for (String keyword : emergencyKeywords) {
+            int index = text.indexOf(keyword);
+            while (index >= 0) {
+                int start = Math.max(0, index - 6);
+                String prefix = text.substring(start, index);
+                if (prefix.contains("无") || prefix.contains("没有") || prefix.contains("不") || prefix.contains("否认")) {
+                    return true;
+                }
+                index = text.indexOf(keyword, index + keyword.length());
+            }
+        }
+        return false;
+    }
+
+    public AgentSession getSession(String sessionId, String token) {
+        return store.getSessionForUser(sessionId, requireUserId(token));
+    }
+
+    public PretriageReport getReport(String sessionId, String token) {
+        store.getSessionForUser(sessionId, requireUserId(token));
+        return store.getReport(sessionId);
+    }
+
+    public PretriageReport confirmReport(String sessionId, String token) {
+        store.getSessionForUser(sessionId, requireUserId(token));
+        PretriageReport report = store.getReport(sessionId);
+        if (report != null) {
+            report.setConfirmed(true);
+            store.saveReport(report);
+        }
+        return report;
+    }
+
+    public List<ToolCallRecord> getToolCalls(String sessionId, String token) {
+        return store.getToolCallsForUser(sessionId, requireUserId(token));
+    }
+
+    public List<AgentSessionSummary> listSessions(String token) {
+        return store.listSessions(requireUserId(token));
+    }
+
+    public AgentSession newSession(String token) {
+        return store.createUserSession(requireUserId(token));
+    }
+
+    public List<AgentMessage> listMessages(String sessionId, String token) {
+        return store.listMessages(sessionId, requireUserId(token));
+    }
+
+    private ChatResponse finishChat(AgentSession session, ChatResponse response) {
+        safeSaveSession(session);
+        if (response != null && StringUtils.hasText(response.getAnswer())) {
+            session.getMessages().add("ASSISTANT: " + response.getAnswer());
+            safeAddMessage(session.getSessionId(), session.getUserId(), "assistant", response.getAnswer(), responseMetadata(response));
+        }
+        return response;
+    }
+
+    private Map<String, Object> responseMetadata(ChatResponse response) {
+        Map<String, Object> metadata = new LinkedHashMap<>();
+        metadata.put("intent", response.getIntent());
+        metadata.put("stage", response.getStage());
+        metadata.put("actions", response.getActions());
+        metadata.put("pretriageReportPreview", response.getPretriageReportPreview());
+        metadata.put("agentSteps", response.getAgentSteps());
+        metadata.put("toolTraces", response.getToolTraces());
+        metadata.put("bookingCard", response.getBookingCard());
+        metadata.put("safetyCard", response.getSafetyCard());
+        return metadata;
+    }
+
+    private Long requireUserId(String token) {
+        Long userId = currentUserId(token);
+        if (userId == null) {
+            throw new YyghException(ResultCodeEnum.LOGIN_AUTH);
+        }
+        return userId;
+    }
+
+    private Long currentUserId(String token) {
+        String value = normalizeToken(token);
+        if (!StringUtils.hasText(value)) {
+            return null;
+        }
+        try {
+            return JwtHelper.getUserId(value);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private String normalizeToken(String token) {
+        if (!StringUtils.hasText(token)) {
+            return null;
+        }
+        String value = token.trim();
+        if (value.startsWith("Bearer ")) {
+            return value.substring("Bearer ".length()).trim();
+        }
+        return value;
+    }
+
+    private ChatResponse tryLangGraphChat(AgentSession session, String message, String token, List<AgentMessage> requestMessages) {
+        if (!langGraphAgentClient.isAvailable()) {
+            return null;
+        }
+        try {
+            ChatResponse response = langGraphAgentClient.chat(session, message, token, recentMessages(session, requestMessages));
+            if (response == null || !StringUtils.hasText(response.getAnswer())) {
+                return null;
+            }
+            session.setIntent(response.getIntent());
+            session.setStage(response.getStage());
+            session.setSlots(response.getSlots());
+            enrichCards(response, session);
+            return response;
+        } catch (Exception e) {
+            safeAddToolCall(new ToolCallRecord(session.getSessionId(), "langgraph_agent",
+                    "chat", "FAILED", e.getMessage(), 0L));
+            return null;
+        }
+    }
+
+    private List<AgentMessage> recentMessages(AgentSession session, List<AgentMessage> requestMessages) {
+        if (session == null || !StringUtils.hasText(session.getSessionId())) {
+            return requestMessages == null ? Collections.emptyList() : requestMessages;
+        }
+        if (session.getUserId() == null) {
+            return requestMessages == null ? Collections.emptyList() : requestMessages;
+        }
+        try {
+            List<AgentMessage> messages = store.listMessages(session.getSessionId(), session.getUserId());
+            if ((messages == null || messages.isEmpty()) && requestMessages != null && !requestMessages.isEmpty()) {
+                messages = requestMessages;
+            }
+            if (messages == null) {
+                return Collections.emptyList();
+            }
+            if (messages.size() <= 20) {
+                return messages;
+            }
+            return messages.subList(messages.size() - 20, messages.size());
+        } catch (Exception e) {
+            return requestMessages == null ? Collections.emptyList() : requestMessages;
+        }
+    }
+
+    private ChatResponse tryToolCallingChat(AgentSession session, String message, String token) {
+        if (!deepSeekToolCallingClient.isAvailable()) {
+            return null;
+        }
+        JSONArray conversation = new JSONArray();
+        JSONObject context = new JSONObject();
+        context.put("currentDateTime", agentDateTools.getCurrentDateTime());
+        context.put("stage", session.getStage());
+        context.put("slots", session.getSlots());
+        context.put("latestMessage", message);
+        context.put("recentMessages", session.getMessages());
+        conversation.add(deepSeekToolCallingClient.userMessage(context.toJSONString()));
+
+        try {
+            AgentToolTurn turn = null;
+            for (int i = 0; i < 4; i++) {
+                turn = deepSeekToolCallingClient.nextTurn(session, conversation);
+                if (turn == null) {
+                    return null;
+                }
+                if (turn.getToolCalls().isEmpty()) {
+                    return toolCallingResponse(session, turn.getAssistantMessage());
+                }
+                conversation.add(deepSeekToolCallingClient.assistantToolCallMessage(turn));
+                for (AgentToolCall call : turn.getToolCalls()) {
+                    Object result = executeAgentTool(session, call, token, message);
+                    conversation.add(deepSeekToolCallingClient.toolResultMessage(call.getId(), call.getName(), result));
+                }
+            }
+            return toolCallingResponse(session, turn == null ? null : turn.getAssistantMessage());
+        } catch (Exception e) {
+            safeAddToolCall(new ToolCallRecord(session.getSessionId(), "deepSeekToolCalling",
+                    "tool_choice=auto", "FAILED", e.getMessage(), 0L));
+            return null;
+        }
+    }
+
+    private ChatResponse toolCallingResponse(AgentSession session, String assistantMessage) {
+        ChatResponse response = baseResponse(session);
+        response.setAnswer(StringUtils.hasText(assistantMessage) ? assistantMessage : defaultToolCallingAnswer(session));
+        if (AgentStage.BOOKING_CONFIRMING.name().equals(session.getStage())) {
+            if (!StringUtils.hasText(stringSlot(session, "scheduleId"))) {
+                response.getActions().add(new ChatAction("ASK_BOOKING_SLOT", "补充挂号信息"));
+            } else if (longSlot(session, "patientId") == null) {
+                response.getActions().add(new ChatAction("MANAGE_PATIENT", "添加就诊人"));
+            } else {
+                response.getActions().add(new ChatAction("CONFIRM_SUBMIT_ORDER", "确认挂号"));
+            }
+        }
+        if (AgentStage.VISIT_GUIDING.name().equals(session.getStage())) {
+            response.getActions().add(new ChatAction("VIEW_ORDER", "查看订单", longSlot(session, "orderId")));
+        }
+        PretriageReport report = safeGetReport(session.getSessionId());
+        fillReportPreview(response, report);
+        return response;
+    }
+
+    private String defaultToolCallingAnswer(AgentSession session) {
+        if (StringUtils.hasText(stringSlot(session, "scheduleId"))) {
+            return buildBookingConfirmationText(session);
+        }
+        if (StringUtils.hasText(stringSlot(session, "depname"))) {
+            return "我已经根据当前信息选择了 " + stringSlot(session, "depname") + "，可以继续帮你查询医院、科室和可预约时间。";
+        }
+        return "请继续补充症状、想去的医院和就诊时间，我会根据需要调用工具查询。";
+    }
+
+    public Object executeAgentTool(AgentToolExecuteRequest request) {
+        AgentSession session = safeGetOrCreate(request.getSessionId(), currentUserId(request.getToken()));
+        AgentToolCall call = new AgentToolCall();
+        call.setId(request.getToolName());
+        call.setName(request.getToolName());
+        call.setArguments(JSONObject.parseObject(JSON.toJSONString(request.getArguments())));
+        Object result = executeAgentTool(session, call, request.getToken(), request.getLatestMessage());
+        safeSaveSession(session);
+        return result;
+    }
+
+    private Object executeAgentTool(AgentSession session, AgentToolCall call, String token, String latestMessage) {
+        String name = call.getName();
+        JSONObject args = call.getArguments();
+        if ("getCurrentDateTime".equals(name)) {
+            return safeCall(session.getSessionId(), "agent.getCurrentDateTime", "systemClock",
+                    () -> agentDateTools.getCurrentDateTime());
+        }
+        if ("calculateDate".equals(name) || "normalizeDate".equals(name)) {
+            return executeNormalizeDate(session, args, latestMessage, name);
+        }
+        if ("conversationMemory".equals(name) || "updateSlots".equals(name)) {
+            return executeUpdateSlots(session, args);
+        }
+        if ("summarizeConversation".equals(name)) {
+            return executeSummarizeConversation(session);
+        }
+        if ("confirmBeforeAction".equals(name)) {
+            return "需要用户二次确认后才能执行关键动作：" + firstText(args.getString("action"), "关键动作");
+        }
+        if ("search_hospitals".equals(name)) {
+            return executeSearchHospitals(session, args);
+        }
+        if ("list_departments".equals(name)) {
+            return executeListDepartments(session, args);
+        }
+        if ("find_schedule_rules".equals(name)) {
+            return executeFindScheduleRules(session, args);
+        }
+        if ("find_schedule_list".equals(name)) {
+            return executeFindScheduleList(session, args);
+        }
+        if ("list_patients".equals(name)) {
+            return executeListPatients(session, token);
+        }
+        if ("create_patient".equals(name)) {
+            return executeCreatePatient(session, args, token);
+        }
+        if ("submit_order".equals(name)) {
+            if (!isSubmitConfirmation(latestMessage)) {
+                return "submit_order blocked: user has not explicitly confirmed order submission";
+            }
+            return executeSubmitOrder(session, args, token);
+        }
+        if ("get_order_info".equals(name)) {
+            return executeGetOrderInfo(session, args, token);
+        }
+        if ("generate_pretriage_report".equals(name)) {
+            return executeGeneratePretriageReport(session, args);
+        }
+        return "unknown tool: " + name;
+    }
+
+    private Object executeNormalizeDate(AgentSession session, JSONObject args, String latestMessage, String toolName) {
+        String text = firstText(args.getString("text"), firstText(args.getString("dateText"), latestMessage));
+        return safeCall(session.getSessionId(), "agent." + toolName, text, () -> {
+            String normalized = agentDateTools.normalizeDate(text);
+            if (StringUtils.hasText(normalized)) {
+                session.getSlots().put("workDate", normalized);
+            }
+            Map<String, Object> result = new LinkedHashMap<>();
+            result.put("input", text);
+            result.put("date", normalized);
+            result.put("currentDateTime", agentDateTools.getCurrentDateTime());
+            return result;
+        });
+    }
+
+    private Object executeUpdateSlots(AgentSession session, JSONObject args) {
+        return safeCall(session.getSessionId(), "agent.updateSlots", args.toJSONString(), () -> {
+            JSONObject slots = args.getJSONObject("slots");
+            if (slots == null) {
+                slots = args;
+            }
+            for (String key : slots.keySet()) {
+                Object value = slots.get(key);
+                if (value != null && StringUtils.hasText(String.valueOf(value))) {
+                    session.getSlots().put(key, value);
+                }
+            }
+            return new LinkedHashMap<>(session.getSlots());
+        });
+    }
+
+    private Object executeSummarizeConversation(AgentSession session) {
+        return safeCall(session.getSessionId(), "agent.summarizeConversation", "recentMessages", () -> {
+            Map<String, Object> summary = new LinkedHashMap<>();
+            summary.put("slots", new LinkedHashMap<>(session.getSlots()));
+            summary.put("messageCount", session.getMessages() == null ? 0 : session.getMessages().size());
+            summary.put("recentMessages", session.getMessages() == null ? Collections.emptyList()
+                    : session.getMessages().subList(Math.max(0, session.getMessages().size() - 8), session.getMessages().size()));
+            return summary;
+        });
+    }
+
+    private Object executeSearchHospitals(AgentSession session, JSONObject args) {
+        String hosname = firstText(args.getString("hosname"), stringSlot(session, "hosname"));
+        Object result = safeCall(session.getSessionId(), "agent.search_hospitals", args.toJSONString(), () -> {
+            if (hospToolClient == null) {
+                return "service-hosp client unavailable";
+            }
+            if (StringUtils.hasText(hosname)) {
+                return hospToolClient.findByHosName(hosname);
+            }
+            return hospToolClient.searchHospitals(1, 5, null, null, args.getString("districtCode"));
+        });
+        JSONObject hospital = firstHospital(result);
+        if (hospital != null) {
+            session.getSlots().put("hoscode", hospital.getString("hoscode"));
+            session.getSlots().put("hosname", hospital.getString("hosname"));
+        }
+        return result;
+    }
+
+    private Object executeListDepartments(AgentSession session, JSONObject args) {
+        String hoscode = firstText(args.getString("hoscode"), stringSlot(session, "hoscode"));
+        Object result = safeCall(session.getSessionId(), "agent.list_departments", "hoscode=" + hoscode, () -> {
+            if (hospToolClient == null || !StringUtils.hasText(hoscode)) {
+                return "service-hosp client unavailable or hoscode missing";
+            }
+            return hospToolClient.listDepartments(hoscode);
+        });
+        JSONArray groups = resultArray(result);
+        JSONObject match = findDepartmentMatch(groups, stringSlot(session, "department"), hoscode, session.getSessionId());
+        if (match == null && groups != null && !groups.isEmpty()) {
+            JSONObject firstGroup = firstObject(groups);
+            match = firstObject(firstGroup == null ? null : firstGroup.getJSONArray("children"));
+        }
+        if (match != null) {
+            session.getSlots().put("depcode", match.getString("depcode"));
+            session.getSlots().put("depname", match.getString("depname"));
+        }
+        return result;
+    }
+
+    private Object executeFindScheduleRules(AgentSession session, JSONObject args) {
+        String hoscode = firstText(args.getString("hoscode"), stringSlot(session, "hoscode"));
+        String depcode = firstText(args.getString("depcode"), stringSlot(session, "depcode"));
+        Object result = safeCall(session.getSessionId(), "agent.find_schedule_rules",
+                "hoscode=" + hoscode + ",depcode=" + depcode, () -> {
+                    if (hospToolClient == null || !StringUtils.hasText(hoscode) || !StringUtils.hasText(depcode)) {
+                        return "service-hosp client unavailable or required arguments missing";
+                    }
+                    return hospToolClient.findScheduleRules(1, 7, hoscode, depcode);
+                });
+        JSONObject data = resultData(result);
+        String workDate = chooseWorkDate(session, data == null ? null : data.getJSONArray("bookingScheduleList"));
+        if (StringUtils.hasText(workDate)) {
+            session.getSlots().put("workDate", workDate);
+        }
+        return result;
+    }
+
+    private Object executeFindScheduleList(AgentSession session, JSONObject args) {
+        String hoscode = firstText(args.getString("hoscode"), stringSlot(session, "hoscode"));
+        String depcode = firstText(args.getString("depcode"), stringSlot(session, "depcode"));
+        String workDate = firstText(args.getString("workDate"), stringSlot(session, "workDate"));
+        Object result = safeCall(session.getSessionId(), "agent.find_schedule_list",
+                "hoscode=" + hoscode + ",depcode=" + depcode + ",workDate=" + workDate, () -> {
+                    if (hospToolClient == null || !StringUtils.hasText(hoscode)
+                            || !StringUtils.hasText(depcode) || !StringUtils.hasText(workDate)) {
+                        return "service-hosp client unavailable or required arguments missing";
+                    }
+                    return hospToolClient.findScheduleList(hoscode, depcode, workDate);
+                });
+        JSONObject schedule = chooseSchedule(session, resultArray(result));
+        if (schedule != null) {
+            session.getSlots().put("scheduleId", schedule.getString("id"));
+            session.getSlots().put("doctorName", stringValue(schedule, "docname", "未知医生"));
+            session.getSlots().put("title", stringValue(schedule, "title", "普通号"));
+            session.getSlots().put("amount", firstNonNull(schedule.get("amount"), "0"));
+            session.getSlots().put("availableNumber", intValue(schedule, "availableNumber"));
+            Integer workTime = intValue(schedule, "workTime");
+            session.getSlots().put("workTime", workTime != null && workTime == 1 ? "下午" : "上午");
+            session.setStage(AgentStage.BOOKING_CONFIRMING.name());
+        }
+        return result;
+    }
+
+    private Object executeListPatients(AgentSession session, String token) {
+        Object result = safeCall(session.getSessionId(), "agent.list_patients", "currentUser", () -> {
+            if (!StringUtils.hasText(token)) {
+                return "login required";
+            }
+            if (userToolClient == null) {
+                return "service-user client unavailable";
+            }
+            return userToolClient.listPatients(token);
+        });
+        JSONArray patients = resultArray(result);
+        if (patients != null && !patients.isEmpty()) {
+            JSONObject patient = patients.getJSONObject(0);
+            session.getSlots().put("patientId", patient.getLong("id"));
+            session.getSlots().put("patientName", patient.getString("name"));
+        }
+        return result;
+    }
+
+    private Object executeCreatePatient(AgentSession session, JSONObject args, String token) {
+        return safeCall(session.getSessionId(), "agent.create_patient", args.toJSONString(), () -> {
+            if (!StringUtils.hasText(token)) {
+                return "login required";
+            }
+            if (userToolClient == null) {
+                return "service-user client unavailable";
+            }
+            List<String> missing = missingPatientFields(args);
+            if (!missing.isEmpty()) {
+                Map<String, Object> payload = new LinkedHashMap<>();
+                payload.put("status", "MISSING_FIELDS");
+                payload.put("missingFields", missing);
+                payload.put("requiredFields", "姓名、证件类型、证件号、性别、出生日期、手机号");
+                return payload;
+            }
+
+            Patient patient = buildPatient(args);
+            Result<Object> saveResult = userToolClient.savePatient(patient, token);
+            Result<Object> listResult = userToolClient.listPatients(token);
+            JSONObject created = findPatientByIdentity(resultArray(listResult), patient.getName(), patient.getCertificatesNo());
+            if (created != null) {
+                session.getSlots().put("patientId", created.getLong("id"));
+                session.getSlots().put("patientName", created.getString("name"));
+            } else {
+                session.getSlots().put("patientName", patient.getName());
+            }
+
+            Map<String, Object> payload = new LinkedHashMap<>();
+            payload.put("status", "CREATED");
+            payload.put("saveResult", summarizeResult(saveResult));
+            payload.put("patient", created == null ? patient : created);
+            payload.put("nextAction", hasBookingCandidate(session) ? "READY_TO_CONFIRM_BOOKING" : "CONTINUE_BOOKING");
+            return payload;
+        });
+    }
+
+    private Object executeSubmitOrder(AgentSession session, JSONObject args, String token) {
+        String scheduleId = firstText(args.getString("scheduleId"), stringSlot(session, "scheduleId"));
+        Long patientId = firstLong(args.get("patientId"), longSlot(session, "patientId"));
+        Object result = safeCall(session.getSessionId(), "agent.submit_order",
+                "scheduleId=" + scheduleId + ",patientId=" + patientId, () -> {
+                    if (!StringUtils.hasText(token)) {
+                        return "login required";
+                    }
+                    if (orderToolClient == null || !StringUtils.hasText(scheduleId) || patientId == null) {
+                        return "service-order client unavailable or required arguments missing";
+                    }
+                    return orderToolClient.submitOrder(scheduleId, patientId, token);
+                });
+        Long orderId = extractOrderId(result);
+        if (orderId != null) {
+            session.getSlots().put("orderId", orderId);
+            session.setStage(AgentStage.VISIT_GUIDING.name());
+        }
+        return result;
+    }
+
+    private Object executeGetOrderInfo(AgentSession session, JSONObject args, String token) {
+        Long orderId = firstLong(args.get("orderId"), longSlot(session, "orderId"));
+        return safeCall(session.getSessionId(), "agent.get_order_info", "orderId=" + orderId, () -> {
+            if (!StringUtils.hasText(token)) {
+                return "login required";
+            }
+            if (orderToolClient == null || orderId == null) {
+                return "service-order client unavailable or orderId missing";
+            }
+            return orderToolClient.getOrderInfo(orderId, token);
+        });
+    }
+
+    private Object executeGeneratePretriageReport(AgentSession session, JSONObject args) {
+        DepartmentRecommendation recommendation = new DepartmentRecommendation();
+        recommendation.setPrimary(firstText(args.getString("department"), stringSlot(session, "department")));
+        recommendation.setReason(firstText(args.getString("reason"), "根据当前对话生成预诊摘要。"));
+        PretriageReport report = pretriageReportService.generate(session, recommendation);
+        safeSaveReport(report);
+        return report;
+    }
+
+    private ChatResponse handleBookingSearch(AgentSession session, String token, DeepSeekTriageResult aiResult) {
+        session.setStage(AgentStage.BOOKING_SEARCHING.name());
+        DepartmentRecommendation recommendation = buildRecommendation(session, aiResult);
+        session.getSlots().put("department", recommendation.getPrimary());
+        session.getSlots().put("depname", recommendation.getPrimary());
+
+        ensureHospital(session);
+        ensureDepartment(session, recommendation);
+        ensurePatient(session, token);
+        ensureSchedule(session);
+
+        PretriageReport report = safeGetReport(session.getSessionId());
+        if (report == null) {
+            report = pretriageReportService.generate(session, recommendation);
+            safeSaveReport(report);
+        }
+
+        session.setStage(AgentStage.BOOKING_CONFIRMING.name());
+        ChatResponse response = baseResponse(session);
+        if (!StringUtils.hasText(stringSlot(session, "scheduleId"))) {
+            response.setAnswer("已经进入挂号信息确认阶段，但还缺少可用号源。请补充医院、日期或上午/下午。");
+            response.getActions().add(new ChatAction("ASK_BOOKING_SLOT", "补充挂号信息"));
+        } else if (!StringUtils.hasText(token)) {
+            response.setAnswer(buildBookingConfirmationText(session)
+                    + "\n\n提交挂号前需要先登录。请登录后再次点击“确认挂号”，我会继续使用当前已选的医院、科室和号源。");
+            response.getActions().add(new ChatAction("NEED_LOGIN", "登录后挂号"));
+        } else if (longSlot(session, "patientId") == null) {
+            response.setAnswer("已经找到可预约号源，但当前账号还没有就诊人。请先添加就诊人，再回到这里继续确认挂号。");
+            response.getActions().add(new ChatAction("MANAGE_PATIENT", "添加就诊人"));
+        } else {
+            response.setAnswer(buildBookingConfirmationText(session));
+            response.getActions().add(new ChatAction("CONFIRM_SUBMIT_ORDER", "确认挂号"));
+        }
+        fillReportPreview(response, report);
+        return response;
+    }
+
+    private void enrichCards(ChatResponse response, AgentSession session) {
+        if (response == null || session == null) {
+            return;
+        }
+        if (AgentStage.BOOKING_CONFIRMING.name().equals(response.getStage())
+                && StringUtils.hasText(stringSlot(session, "scheduleId"))
+                && response.getBookingCard().isEmpty()) {
+            response.getBookingCard().put("hosname", stringSlot(session, "hosname"));
+            response.getBookingCard().put("depname", stringSlot(session, "depname"));
+            response.getBookingCard().put("workDate", stringSlot(session, "workDate"));
+            response.getBookingCard().put("workTime", stringSlot(session, "workTime"));
+            response.getBookingCard().put("doctorName", stringSlot(session, "doctorName"));
+            response.getBookingCard().put("title", stringSlot(session, "title"));
+            response.getBookingCard().put("amount", stringSlot(session, "amount"));
+            response.getBookingCard().put("patientName", stringSlot(session, "patientName"));
+            response.getBookingCard().put("requiresSecondConfirmation", true);
+        }
+        if (response.getSafetyCard().isEmpty()) {
+            response.getSafetyCard().put("scope", "仅提供导诊、挂号辅助和就诊指引，不提供疾病确诊、处方或用药决策。");
+            response.getSafetyCard().put("emergency", "胸痛、严重呼吸困难、意识障碍、大出血、抽搐等情况优先急诊或 120。");
+            response.getSafetyCard().put("privacy", "身份证号、手机号、支付信息和完整病历不进入向量库。");
+        }
+    }
+
+    private ChatResponse handleSubmitConfirmation(AgentSession session, String token) {
+        if (!StringUtils.hasText(token)) {
+            session.setStage(AgentStage.BOOKING_CONFIRMING.name());
+            ChatResponse response = baseResponse(session);
+            response.setAnswer("提交挂号前需要先登录。请登录后再次点击“确认挂号”，我会继续使用当前已选的医院、科室和号源。");
+            response.getActions().add(new ChatAction("NEED_LOGIN", "登录后挂号"));
+            fillReportPreview(response, safeGetReport(session.getSessionId()));
+            return response;
+        }
+
+        ensurePatient(session, token);
+        if (longSlot(session, "patientId") == null) {
+            session.setStage(AgentStage.BOOKING_CONFIRMING.name());
+            ChatResponse response = baseResponse(session);
+            response.setAnswer("当前账号还没有就诊人，暂时不能提交挂号。请先添加就诊人，再回到这里继续确认挂号。");
+            response.getActions().add(new ChatAction("MANAGE_PATIENT", "添加就诊人"));
+            fillReportPreview(response, safeGetReport(session.getSessionId()));
+            return response;
+        }
+        if (!hasBookingCandidate(session)) {
+            return handleBookingSearch(session, token, null);
+        }
+
+        session.setStage(AgentStage.ORDER_SUBMITTING.name());
+        String scheduleId = stringSlot(session, "scheduleId");
+        Long patientId = longSlot(session, "patientId");
+
+        Object orderResult = safeCall(session.getSessionId(), "submitOrder",
+                "scheduleId=" + scheduleId + ",patientId=" + patientId, () -> {
+                    if (orderToolClient == null) {
+                        return "service-order client unavailable";
+                    }
+                    return orderToolClient.submitOrder(scheduleId, patientId, token);
+                });
+        Long orderId = extractOrderId(orderResult);
+        if (orderId != null) {
+            session.getSlots().put("orderId", orderId);
+        }
+
+        if (orderId != null && orderToolClient != null) {
+            safeCall(session.getSessionId(), "getOrderInfo", "orderId=" + orderId,
+                    () -> orderToolClient.getOrderInfo(orderId, token));
+        }
+
+        session.setStage(AgentStage.VISIT_GUIDING.name());
+        ChatResponse response = baseResponse(session);
+        response.setAnswer("预约订单已创建，本地演示已跳过真实支付。"
+                + "\n订单号：" + (orderId == null ? "请在订单列表查看" : orderId)
+                + "\n医院：" + stringSlot(session, "hosname")
+                + "\n科室：" + stringSlot(session, "depname")
+                + "\n时间：" + stringSlot(session, "workDate") + " " + stringSlot(session, "workTime")
+                + "\n就诊人：" + stringSlot(session, "patientName")
+                + "\n取号提示：就诊当天开诊前30分钟，到门诊楼一层挂号/收费窗口取号。");
+        response.getActions().add(new ChatAction("VIEW_ORDER", "查看订单", orderId));
+        fillReportPreview(response, safeGetReport(session.getSessionId()));
+        return response;
+    }
+    private ChatResponse askSymptomFollowUp(AgentSession session, DeepSeekTriageResult aiResult) {
+        ChatResponse response = baseResponse(session);
+        String question = aiResult == null ? null : aiResult.getFollowUpQuestion();
+        if (!StringUtils.hasText(question)) {
+            question = "我先帮你做导诊。请继续补充：不舒服持续多久了？有没有发热、胸闷、呼吸困难或明显疼痛？症状严重程度大概是轻、中、重？";
+        }
+        response.setAnswer(question);
+        response.getActions().add(new ChatAction("ASK_USER", "补充症状信息"));
+        return response;
+    }
+
+    private void ensureHospital(AgentSession session) {
+        if (StringUtils.hasText(stringSlot(session, "hoscode"))) {
+            return;
+        }
+        Object result = safeCall(session.getSessionId(), "searchHospitals", "page=1,limit=5", () -> {
+            if (hospToolClient == null) {
+                return "service-hosp client unavailable";
+            }
+            return hospToolClient.searchHospitals(1, 5, null, null, null);
+        });
+        JSONObject data = resultData(result);
+        JSONArray content = data == null ? null : data.getJSONArray("content");
+        JSONObject hospital = firstObject(content);
+        if (hospital != null) {
+            session.getSlots().put("hoscode", hospital.getString("hoscode"));
+            session.getSlots().put("hosname", hospital.getString("hosname"));
+        }
+    }
+
+    private void ensureDepartment(AgentSession session, DepartmentRecommendation recommendation) {
+        if (StringUtils.hasText(stringSlot(session, "depcode"))) {
+            return;
+        }
+        String hoscode = stringSlot(session, "hoscode");
+        if (!StringUtils.hasText(hoscode) || hospToolClient == null) {
+            return;
+        }
+        Object result = safeCall(session.getSessionId(), "listDepartments", "hoscode=" + hoscode,
+                () -> hospToolClient.listDepartments(hoscode));
+        JSONArray groups = resultArray(result);
+        JSONObject match = findDepartmentMatch(groups, recommendation.getPrimary(), hoscode, session.getSessionId());
+        if (match == null && groups != null && !groups.isEmpty()) {
+            JSONObject firstGroup = firstObject(groups);
+            JSONArray children = firstGroup == null ? null : firstGroup.getJSONArray("children");
+            match = firstObject(children);
+        }
+        if (match != null) {
+            session.getSlots().put("depcode", match.getString("depcode"));
+            session.getSlots().put("depname", match.getString("depname"));
+        }
+    }
+
+    private void ensurePatient(AgentSession session, String token) {
+        if (longSlot(session, "patientId") != null) {
+            return;
+        }
+        if (!StringUtils.hasText(token) || userToolClient == null) {
+            return;
+        }
+        Object result = safeCall(session.getSessionId(), "listPatients", "currentUser",
+                () -> userToolClient.listPatients(token));
+        JSONArray patients = resultArray(result);
+        if (patients != null && !patients.isEmpty()) {
+            JSONObject patient = patients.getJSONObject(0);
+            session.getSlots().put("patientId", patient.getLong("id"));
+            session.getSlots().put("patientName", patient.getString("name"));
+        }
+    }
+    private void ensureSchedule(AgentSession session) {
+        if (StringUtils.hasText(stringSlot(session, "scheduleId"))) {
+            return;
+        }
+        String hoscode = stringSlot(session, "hoscode");
+        String depcode = stringSlot(session, "depcode");
+        if (!StringUtils.hasText(hoscode) || !StringUtils.hasText(depcode) || hospToolClient == null) {
+            return;
+        }
+        Object rulesResult = safeCall(session.getSessionId(), "findScheduleRules",
+                "hoscode=" + hoscode + ",depcode=" + depcode,
+                () -> hospToolClient.findScheduleRules(1, 7, hoscode, depcode));
+        JSONObject rulesData = resultData(rulesResult);
+        JSONArray days = rulesData == null ? null : rulesData.getJSONArray("bookingScheduleList");
+        String workDate = chooseWorkDate(session, days);
+        if (!StringUtils.hasText(workDate)) {
+            return;
+        }
+        session.getSlots().put("workDate", workDate);
+
+        Object listResult = safeCall(session.getSessionId(), "findScheduleList",
+                "hoscode=" + hoscode + ",depcode=" + depcode + ",workDate=" + workDate,
+                () -> hospToolClient.findScheduleList(hoscode, depcode, workDate));
+        JSONArray schedules = resultArray(listResult);
+        JSONObject schedule = chooseSchedule(session, schedules);
+        if (schedule != null) {
+            session.getSlots().put("scheduleId", schedule.getString("id"));
+            session.getSlots().put("doctorName", stringValue(schedule, "docname", "未知医生"));
+            session.getSlots().put("title", stringValue(schedule, "title", "普通号"));
+            session.getSlots().put("amount", firstNonNull(schedule.get("amount"), "0"));
+            session.getSlots().put("availableNumber", intValue(schedule, "availableNumber"));
+            Integer workTime = intValue(schedule, "workTime");
+            session.getSlots().put("workTime", workTime != null && workTime == 1 ? "下午" : "上午");
+        }
+    }
+
+    private String chooseWorkDate(AgentSession session, JSONArray days) {
+        String requested = stringSlot(session, "workDate");
+        if (StringUtils.hasText(requested)) {
+            return requested;
+        }
+        if (days == null) {
+            return null;
+        }
+        for (int i = 0; i < days.size(); i++) {
+            JSONObject day = objectAt(days, i);
+            if (day == null) {
+                continue;
+            }
+            Integer available = intValue(day, "availableNumber");
+            Integer docCount = intValue(day, "docCount");
+            if (available != null && available > 0 && docCount != null && docCount > 0) {
+                return day.getString("workDate");
+            }
+        }
+        return null;
+    }
+
+    private JSONObject chooseSchedule(AgentSession session, JSONArray schedules) {
+        if (schedules == null || schedules.isEmpty()) {
+            return null;
+        }
+        Integer targetWorkTime = null;
+        String workTimeSlot = stringSlot(session, "workTime");
+        if (StringUtils.hasText(workTimeSlot)) {
+            if (workTimeSlot.contains("下") || "1".equals(workTimeSlot)) {
+                targetWorkTime = 1;
+            } else if (workTimeSlot.contains("上") || "0".equals(workTimeSlot)) {
+                targetWorkTime = 0;
+            }
+        }
+        JSONObject fallback = null;
+        for (int i = 0; i < schedules.size(); i++) {
+            JSONObject schedule = objectAt(schedules, i);
+            if (schedule == null) {
+                continue;
+            }
+            if (fallback == null) {
+                fallback = schedule;
+            }
+            Integer available = intValue(schedule, "availableNumber");
+            Integer workTime = intValue(schedule, "workTime");
+            if (available != null && available > 0 && (targetWorkTime == null || targetWorkTime.equals(workTime))) {
+                return schedule;
+            }
+        }
+        return fallback;
+    }
+
+    private JSONObject findDepartmentMatch(JSONArray groups, String department, String hoscode, String sessionId) {
+        if (groups == null || !StringUtils.hasText(department)) {
+            return null;
+        }
+        String normalized = normalizeDepartment(department);
+        JSONObject fallback = null;
+        for (int i = 0; i < groups.size(); i++) {
+            JSONObject group = objectAt(groups, i);
+            JSONArray children = group == null ? null : group.getJSONArray("children");
+            if (children == null) {
+                continue;
+            }
+            for (int j = 0; j < children.size(); j++) {
+                JSONObject child = objectAt(children, j);
+                if (child == null) {
+                    continue;
+                }
+                String depname = child.getString("depname");
+                if (depname != null && depname.contains(normalized)) {
+                    if (fallback == null) {
+                        fallback = child;
+                    }
+                    if (hasAvailableSchedule(sessionId, hoscode, child.getString("depcode"))) {
+                        return child;
+                    }
+                }
+            }
+        }
+        return fallback;
+    }
+
+    private boolean hasAvailableSchedule(String sessionId, String hoscode, String depcode) {
+        if (!StringUtils.hasText(hoscode) || !StringUtils.hasText(depcode) || hospToolClient == null) {
+            return false;
+        }
+        Object rulesResult = safeCall(sessionId, "findScheduleRules",
+                "hoscode=" + hoscode + ",depcode=" + depcode,
+                () -> hospToolClient.findScheduleRules(1, 7, hoscode, depcode));
+        JSONObject rulesData = resultData(rulesResult);
+        JSONArray days = rulesData == null ? null : rulesData.getJSONArray("bookingScheduleList");
+        if (days == null) {
+            return false;
+        }
+        for (int i = 0; i < days.size(); i++) {
+            JSONObject day = objectAt(days, i);
+            if (day == null) {
+                continue;
+            }
+            Integer available = intValue(day, "availableNumber");
+            Integer docCount = intValue(day, "docCount");
+            if (available != null && available > 0 && docCount != null && docCount > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String normalizeDepartment(String department) {
+        if (department.contains("呼吸")) {
+            return "呼吸内科";
+        }
+        if (department.contains("耳鼻") || department.contains("咽喉")) {
+            return "耳鼻喉";
+        }
+        if (department.contains("消化") || department.contains("胃")) {
+            return "消化内科";
+        }
+        if (department.contains("心")) {
+            return "心内科";
+        }
+        if (department.contains("神经")) {
+            return "神经";
+        }
+        return department.replace("科", "");
+    }
+
+    private String buildBookingConfirmationText(AgentSession session) {
+        return "已找到可预约号源，请确认是否提交预约。"
+                + "\n医院：" + stringSlot(session, "hosname")
+                + "\n科室：" + stringSlot(session, "depname")
+                + "\n日期：" + stringSlot(session, "workDate")
+                + "\n时间段：" + stringSlot(session, "workTime")
+                + "\n医生：" + stringSlot(session, "doctorName") + "（" + stringSlot(session, "title") + "）"
+                + "\n费用：" + stringSlot(session, "amount") + " 元"
+                + "\n就诊人：" + stringSlot(session, "patientName")
+                + "\n确认后将创建挂号订单；本地演示不调用真实支付。";
+    }
+
+    private boolean hasBookingCandidate(AgentSession session) {
+        return StringUtils.hasText(stringSlot(session, "scheduleId")) && longSlot(session, "patientId") != null;
+    }
+
+    private boolean shouldContinueBooking(AgentSession session, String message) {
+        String stage = session.getStage();
+        if (AgentStage.BOOKING_SEARCHING.name().equals(stage) || AgentStage.BOOKING_CONFIRMING.name().equals(stage)) {
+            return true;
+        }
+        return StringUtils.hasText(stringSlot(session, "department"))
+                && (message.contains("协和") || message.contains("医院") || message.contains("明天")
+                || message.contains("后天") || message.contains("上午") || message.contains("下午")
+                || message.contains("默认就诊人"));
+    }
+
+    private boolean needsMoreSymptomInfo(AgentSession session, DeepSeekTriageResult aiResult) {
+        List<String> symptoms = getSymptoms(session);
+        if (symptoms.isEmpty()) {
+            return true;
+        }
+        if (session.getSlots().get("duration") == null) {
+            return true;
+        }
+        return session.getMessages().size() < 2 && StringUtils.hasText(aiResult == null ? null : aiResult.getFollowUpQuestion());
+    }
+
+    private void mergeRuleBasedSlots(AgentSession session, String message) {
+        List<String> oldSymptoms = getSymptoms(session);
+        for (String symptom : triageRuleEngine.extractSymptoms(message)) {
+            if (!oldSymptoms.contains(symptom)) {
+                oldSymptoms.add(symptom);
+            }
+        }
+        session.getSlots().put("symptoms", oldSymptoms);
+
+        String duration = triageRuleEngine.extractDuration(message);
+        if (duration != null) {
+            session.getSlots().put("duration", duration);
+        }
+        String severity = triageRuleEngine.extractSeverity(message);
+        if (severity != null) {
+            session.getSlots().put("severity", severity);
+        }
+        if (message.contains("协和") || message.contains("北京协和")) {
+            session.getSlots().put("hoscode", "1000_0");
+            session.getSlots().put("hosname", "北京协和医院");
+        }
+        Matcher cityMatcher = CITY_PATTERN.matcher(message);
+        if (cityMatcher.find()) {
+            session.getSlots().put("city", cityMatcher.group(1));
+        }
+        if (message.contains("上午")) {
+            session.getSlots().put("workTime", "上午");
+        } else if (message.contains("下午")) {
+            session.getSlots().put("workTime", "下午");
+        } else if (message.contains("无所谓") || message.contains("不限") || message.contains("都可以")) {
+            session.getSlots().put("workTime", "不限");
+        }
+        if (message.contains("我自己") || message.contains("本人")) {
+            session.getSlots().put("patient", "本人");
+            session.getSlots().put("patientRelation", "self");
+        }
+        String department = extractDepartmentFromText(message);
+        if (StringUtils.hasText(department)) {
+            session.getSlots().put("department", department);
+            session.getSlots().put("depname", department);
+        }
+        String normalizedDate = agentDateTools.normalizeDate(message);
+        if (StringUtils.hasText(normalizedDate)) {
+            session.getSlots().put("workDate", normalizedDate);
+        }
+        String scheduleId = extractValueAfter(message, "scheduleId=");
+        if (scheduleId != null) {
+            session.getSlots().put("scheduleId", scheduleId);
+        }
+    }
+
+    private String extractDepartmentFromText(String message) {
+        if (!StringUtils.hasText(message)) {
+            return null;
+        }
+        if (message.contains("心血管内科")) {
+            return "心血管内科";
+        }
+        if (message.contains("心内科") || message.contains("心脏内科")) {
+            return "心内科";
+        }
+        if (message.contains("神经内科")) {
+            return "神经内科";
+        }
+        if (message.contains("普通内科")) {
+            return "普通内科";
+        }
+        if (message.contains("精神心理科") || message.contains("心理科")) {
+            return "精神心理科";
+        }
+        if (message.contains("睡眠门诊")) {
+            return "睡眠门诊";
+        }
+        return null;
+    }
+
+    private DeepSeekTriageResult analyzeByDeepSeek(AgentSession session, String message) {
+        Object result = safeCall(session.getSessionId(), "deepSeekTriageAnalyze", "model=deepseek-v4-pro",
+                () -> deepSeekTriageClient.analyze(session, message));
+        return result instanceof DeepSeekTriageResult ? (DeepSeekTriageResult) result : null;
+    }
+
+    private void mergeDeepSeekSlots(AgentSession session, DeepSeekTriageResult result) {
+        if (result == null) {
+            return;
+        }
+        List<String> symptoms = getSymptoms(session);
+        if (result.getSymptoms() != null) {
+            for (String symptom : result.getSymptoms()) {
+                if (StringUtils.hasText(symptom) && !symptoms.contains(symptom)) {
+                    symptoms.add(symptom);
+                }
+            }
+        }
+        session.getSlots().put("symptoms", symptoms);
+        if (StringUtils.hasText(result.getDuration())) {
+            session.getSlots().put("duration", result.getDuration());
+        }
+        if (StringUtils.hasText(result.getSeverity())) {
+            session.getSlots().put("severity", result.getSeverity());
+        }
+        if (StringUtils.hasText(result.getDepartment())) {
+            session.getSlots().put("department", result.getDepartment());
+            session.getSlots().put("depname", result.getDepartment());
+        }
+    }
+
+    private Object firstNonNull(Object first, Object second) {
+        return first != null ? first : second;
+    }
+
+    private DepartmentRecommendation buildRecommendation(AgentSession session, DeepSeekTriageResult aiResult) {
+        if (aiResult != null && StringUtils.hasText(aiResult.getDepartment())) {
+            DepartmentRecommendation recommendation = new DepartmentRecommendation();
+            recommendation.setPrimary(aiResult.getDepartment());
+            recommendation.setAlternatives(aiResult.getAlternatives());
+            recommendation.setReason(StringUtils.hasText(aiResult.getReason()) ? aiResult.getReason() : "根据当前症状信息进行导诊推荐。");
+            return recommendation;
+        }
+        return triageRuleEngine.recommend(getSymptoms(session));
+    }
+
+    private boolean isBookingConfirmation(String message) {
+        return message.contains("确认科室")
+                || message.contains("查号")
+                || message.contains("帮我挂")
+                || message.contains("继续查")
+                || message.contains("可以")
+                || message.contains("认可");
+    }
+
+    private boolean isSubmitConfirmation(String message) {
+        return message.contains("确认挂号")
+                || message.contains("提交订单")
+                || message.contains("确认下单")
+                || message.contains("下单");
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<String> getSymptoms(AgentSession session) {
+        Object value = session.getSlots().get("symptoms");
+        if (value instanceof List) {
+            return (List<String>) value;
+        }
+        return new ArrayList<>();
+    }
+
+    private ChatResponse baseResponse(AgentSession session) {
+        ChatResponse response = new ChatResponse();
+        response.setSessionId(session.getSessionId());
+        response.setIntent(session.getIntent());
+        response.setStage(session.getStage());
+        response.setSlots(new LinkedHashMap<>(session.getSlots()));
+        return response;
+    }
+
+    private void fillReportPreview(ChatResponse response, PretriageReport report) {
+        if (report == null) {
+            return;
+        }
+        response.getPretriageReportPreview().put("chiefComplaint", report.getChiefComplaint());
+        if (report.getDepartmentRecommendation() != null) {
+            response.getPretriageReportPreview().put("departmentRecommendation", report.getDepartmentRecommendation().getPrimary());
+        }
+        response.getPretriageReportPreview().put("doctorCopyText", report.getDoctorCopyText());
+    }
+
+    private List<String> missingPatientFields(JSONObject args) {
+        List<String> missing = new ArrayList<>();
+        if (!StringUtils.hasText(args.getString("name"))) {
+            missing.add("name");
+        }
+        if (!StringUtils.hasText(firstText(args.getString("certificatesType"), args.getString("certificateType")))) {
+            missing.add("certificatesType");
+        }
+        if (!StringUtils.hasText(firstText(args.getString("certificatesNo"), args.getString("certificateNo")))) {
+            missing.add("certificatesNo");
+        }
+        if (normalizeInteger(firstText(args.getString("sex"), args.getString("gender"))) == null) {
+            missing.add("sex");
+        }
+        if (!StringUtils.hasText(args.getString("birthdate"))) {
+            missing.add("birthdate");
+        }
+        if (!StringUtils.hasText(args.getString("phone"))) {
+            missing.add("phone");
+        }
+        return missing;
+    }
+
+    private Patient buildPatient(JSONObject args) {
+        Patient patient = new Patient();
+        patient.setName(args.getString("name"));
+        patient.setCertificatesType(firstText(args.getString("certificatesType"), args.getString("certificateType")));
+        patient.setCertificatesNo(firstText(args.getString("certificatesNo"), args.getString("certificateNo")));
+        patient.setSex(normalizeInteger(firstText(args.getString("sex"), args.getString("gender"))));
+        patient.setBirthdate(parseBirthdate(args.getString("birthdate")));
+        patient.setPhone(args.getString("phone"));
+        patient.setIsMarry(defaultInteger(normalizeInteger(args.getString("isMarry")), 0));
+        patient.setIsInsure(defaultInteger(normalizeInteger(args.getString("isInsure")), 0));
+        patient.setProvinceCode(args.getString("provinceCode"));
+        patient.setCityCode(args.getString("cityCode"));
+        patient.setDistrictCode(args.getString("districtCode"));
+        patient.setAddress(args.getString("address"));
+        patient.setContactsName(args.getString("contactsName"));
+        patient.setContactsCertificatesType(firstText(args.getString("contactsCertificatesType"), patient.getCertificatesType()));
+        patient.setContactsCertificatesNo(firstText(args.getString("contactsCertificatesNo"), patient.getCertificatesNo()));
+        patient.setContactsPhone(firstText(args.getString("contactsPhone"), patient.getPhone()));
+        patient.setCardNo(args.getString("cardNo"));
+        patient.setStatus("1");
+        return patient;
+    }
+
+    private Date parseBirthdate(String value) {
+        LocalDate localDate = LocalDate.parse(value, DATE_FORMATTER);
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
+    private Integer normalizeInteger(String value) {
+        if (!StringUtils.hasText(value)) {
+            return null;
+        }
+        String text = value.trim();
+        if ("男".equals(text) || "male".equalsIgnoreCase(text) || "是".equals(text) || "有".equals(text) || "已婚".equals(text)) {
+            return 1;
+        }
+        if ("女".equals(text) || "female".equalsIgnoreCase(text) || "否".equals(text) || "无".equals(text) || "未婚".equals(text)) {
+            return 0;
+        }
+        try {
+            return Integer.valueOf(text);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private Integer defaultInteger(Integer value, Integer defaultValue) {
+        return value == null ? defaultValue : value;
+    }
+
+    private JSONObject findPatientByIdentity(JSONArray patients, String name, String certificatesNo) {
+        if (patients == null) {
+            return null;
+        }
+        for (int i = 0; i < patients.size(); i++) {
+            JSONObject patient = objectAt(patients, i);
+            if (patient == null) {
+                continue;
+            }
+            if (String.valueOf(name).equals(patient.getString("name"))
+                    && String.valueOf(certificatesNo).equals(patient.getString("certificatesNo"))) {
+                return patient;
+            }
+        }
+        return firstObject(patients);
+    }
+
+    private Object safeCall(String sessionId, String toolName, String argumentsText, ToolExecutor executor) {
+        long start = System.currentTimeMillis();
+        try {
+            Object result = executor.execute();
+            safeAddToolCall(new ToolCallRecord(sessionId, toolName, argumentsText, "SUCCESS", stringLimit(result), System.currentTimeMillis() - start));
+            return result;
+        } catch (Exception e) {
+            safeAddToolCall(new ToolCallRecord(sessionId, toolName, argumentsText, "FAILED", e.getMessage(), System.currentTimeMillis() - start));
+            return "工具调用失败：" + e.getMessage();
+        }
+    }
+
+    private AgentSession safeGetOrCreate(String sessionId, Long userId) {
+        try {
+            return store.getOrCreate(sessionId, userId);
+        } catch (Exception e) {
+            AgentSession session = new AgentSession();
+            session.setSessionId(StringUtils.hasText(sessionId) ? sessionId : "demo-" + UUID.randomUUID().toString());
+            session.setUserId(userId);
+            return session;
+        }
+    }
+
+    private void safeSaveSession(AgentSession session) {
+        try {
+            store.saveSession(session);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void safeAddMessage(String sessionId, Long userId, String role, String content, Map<String, Object> metadata) {
+        try {
+            store.addMessage(sessionId, userId, role, content, metadata);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private PretriageReport safeGetReport(String sessionId) {
+        try {
+            return store.getReport(sessionId);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private void safeSaveReport(PretriageReport report) {
+        try {
+            store.saveReport(report);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void safeAddToolCall(ToolCallRecord record) {
+        try {
+            store.addToolCall(record);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private JSONObject resultData(Object result) {
+        if (result instanceof Result) {
+            Object data = ((Result<?>) result).getData();
+            return data == null ? null : JSON.parseObject(JSON.toJSONString(data));
+        }
+        if (result instanceof String) {
+            return null;
+        }
+        return result == null ? null : JSON.parseObject(JSON.toJSONString(result));
+    }
+
+    private JSONArray resultArray(Object result) {
+        if (result instanceof Result) {
+            Object data = ((Result<?>) result).getData();
+            return data == null ? null : JSON.parseArray(JSON.toJSONString(data));
+        }
+        if (result instanceof String) {
+            return null;
+        }
+        return result == null ? null : JSON.parseArray(JSON.toJSONString(result));
+    }
+
+    private Long extractOrderId(Object result) {
+        if (result instanceof Result) {
+            Object data = ((Result<?>) result).getData();
+            if (data instanceof Number) {
+                return ((Number) data).longValue();
+            }
+            if (data != null) {
+                return Long.valueOf(String.valueOf(data));
+            }
+        }
+        return null;
+    }
+
+    private JSONObject firstHospital(Object result) {
+        Object raw = result instanceof Result ? ((Result<?>) result).getData() : result;
+        if (raw == null || raw instanceof String) {
+            return null;
+        }
+        if (raw instanceof JSONArray) {
+            return firstObject((JSONArray) raw);
+        }
+        if (raw instanceof List) {
+            return firstObject(JSON.parseArray(JSON.toJSONString(raw)));
+        }
+        JSONObject data = raw instanceof JSONObject ? (JSONObject) raw : JSON.parseObject(JSON.toJSONString(raw));
+        JSONArray content = data.getJSONArray("content");
+        if (content != null) {
+            return firstObject(content);
+        }
+        if (StringUtils.hasText(data.getString("hoscode"))) {
+            return data;
+        }
+        return null;
+    }
+
+    private String firstText(String first, String second) {
+        return StringUtils.hasText(first) ? first : second;
+    }
+
+    private Long firstLong(Object first, Long second) {
+        if (first instanceof Number) {
+            return ((Number) first).longValue();
+        }
+        if (first instanceof String && StringUtils.hasText((String) first)) {
+            return Long.valueOf((String) first);
+        }
+        return second;
+    }
+
+    private String summarizeResult(Result<Object> result) {
+        if (result == null) {
+            return "no result";
+        }
+        return "code=" + result.getCode() + ", data=" + stringLimit(result.getData());
+    }
+
+    private String stringLimit(Object value) {
+        String text = value instanceof String ? (String) value : JSONObject.toJSONString(value);
+        if (text == null) {
+            return "";
+        }
+        return text.length() > 500 ? text.substring(0, 500) + "..." : text;
+    }
+
+    private String stringSlot(AgentSession session, String key) {
+        Object value = session.getSlots().get(key);
+        return value == null ? null : String.valueOf(value);
+    }
+
+    private Long longSlot(AgentSession session, String key) {
+        Object value = session.getSlots().get(key);
+        if (value instanceof Number) {
+            return ((Number) value).longValue();
+        }
+        if (value instanceof String && ((String) value).length() > 0) {
+            return Long.valueOf((String) value);
+        }
+        return null;
+    }
+
+    private JSONObject firstObject(JSONArray array) {
+        if (array == null) {
+            return null;
+        }
+        for (int i = 0; i < array.size(); i++) {
+            JSONObject object = objectAt(array, i);
+            if (object != null) {
+                return object;
+            }
+        }
+        return null;
+    }
+
+    private JSONObject objectAt(JSONArray array, int index) {
+        Object value = array == null ? null : array.get(index);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof JSONObject) {
+            return (JSONObject) value;
+        }
+        return JSON.parseObject(JSON.toJSONString(value));
+    }
+
+    private Integer intValue(JSONObject object, String key) {
+        if (object == null) {
+            return null;
+        }
+        Integer value = object.getInteger(key);
+        if (value != null) {
+            return value;
+        }
+        JSONObject param = object.getJSONObject("param");
+        return param == null ? null : param.getInteger(key);
+    }
+
+    private String stringValue(JSONObject object, String key, String defaultValue) {
+        if (object == null) {
+            return defaultValue;
+        }
+        String value = object.getString(key);
+        if (StringUtils.hasText(value)) {
+            return value;
+        }
+        JSONObject param = object.getJSONObject("param");
+        value = param == null ? null : param.getString(key);
+        return StringUtils.hasText(value) ? value : defaultValue;
+    }
+
+    private String extractNumberAfter(String message, String marker) {
+        String value = extractValueAfter(message, marker);
+        if (value == null) {
+            return null;
+        }
+        StringBuilder digits = new StringBuilder();
+        for (int i = 0; i < value.length(); i++) {
+            char ch = value.charAt(i);
+            if (Character.isDigit(ch)) {
+                digits.append(ch);
+            } else {
+                break;
+            }
+        }
+        return digits.length() == 0 ? null : digits.toString();
+    }
+
+    private String extractValueAfter(String message, String marker) {
+        int index = message.indexOf(marker);
+        if (index < 0) {
+            return null;
+        }
+        String tail = message.substring(index + marker.length()).trim();
+        int end = tail.length();
+        for (int i = 0; i < tail.length(); i++) {
+            char ch = tail.charAt(i);
+            if (Character.isWhitespace(ch) || ch == ',' || ch == '，') {
+                end = i;
+                break;
+            }
+        }
+        return tail.substring(0, end);
+    }
+
+    private String extractDate(String message) {
+        for (int i = 0; i + 10 <= message.length(); i++) {
+            String candidate = message.substring(i, i + 10);
+            if (candidate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                return candidate;
+            }
+        }
+        return null;
+    }
+
+    private void mergeRequestHistory(AgentSession session, List<AgentMessage> messages) {
+        if (session == null || messages == null || messages.isEmpty()) {
+            return;
+        }
+        if (session.getMessages() == null) {
+            session.setMessages(new ArrayList<>());
+        }
+        if (!session.getMessages().isEmpty()) {
+            return;
+        }
+        for (AgentMessage message : messages) {
+            if (message == null || !StringUtils.hasText(message.getContent())) {
+                continue;
+            }
+            String role = "assistant".equals(message.getRole()) ? "ASSISTANT" : "USER";
+            session.getMessages().add(role + ": " + message.getContent());
+            if ("user".equals(message.getRole())) {
+                mergeRuleBasedSlots(session, message.getContent());
+            }
+        }
+    }
+
+    private interface ToolExecutor {
+        Object execute() throws Exception;
+    }
+}

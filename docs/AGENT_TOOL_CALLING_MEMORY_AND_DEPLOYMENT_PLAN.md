@@ -76,8 +76,8 @@
 
 建议在 OneDrive 项目副本中保留：
 
-- `代码/代码/02-尚医通后端代码/yygh_parent`
-- `代码/代码/03-尚医通前端代码/yygh-site`
+- `backend/yygh_parent`
+- `frontend/yygh-site`
 - `docs`
 - `scripts`
 - `restart-all.bat`、`start-all.bat`、`stop-all.bat`
@@ -85,10 +85,10 @@
 
 建议迁出或删除：
 
-- `资料/` 下课程资料、示例数据、压缩包、截图、第三方静态资源。
-- `代码/代码/01-MyBatisPlus代码/`
+- 未被当前仓库引用的课程资料、压缩包、截图、第三方静态资源。
+- `examples/` 下仅用于学习验证的示例工程。
 - 所有 `target/`、`.nuxt/`、`node_modules/`、运行日志、crash dump。
-- 医院接口模拟系统的课程资源副本，除非当前启动脚本仍依赖其中 SQL。
+- 医院接口模拟系统的旧课程资源副本；当前演示 seed 已迁入 `deploy/local-data/mongodb/yygh_hosp`。
 
 清理前先做一次清单确认，不建议直接在 OneDrive 同步目录里批量删除未知资源。
 

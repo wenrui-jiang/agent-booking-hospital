@@ -30,6 +30,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# Python
+**/__pycache__/
+*.py[cod]
+
 # OS and editor noise
 .DS_Store
 Thumbs.db
