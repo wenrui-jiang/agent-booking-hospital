@@ -29,10 +29,34 @@ export default {
     })
   },
 
+  listSessions() {
+    return request({
+      baseURL: agentBaseUrl,
+      url: `${api_name}/sessions`,
+      method: 'get'
+    })
+  },
+
+  newSession() {
+    return request({
+      baseURL: agentBaseUrl,
+      url: `${api_name}/session/new`,
+      method: 'post'
+    })
+  },
+
   getSession(sessionId) {
     return request({
       baseURL: agentBaseUrl,
       url: `${api_name}/session/${sessionId}`,
+      method: 'get'
+    })
+  },
+
+  getMessages(sessionId) {
+    return request({
+      baseURL: agentBaseUrl,
+      url: `${api_name}/session/${sessionId}/messages`,
       method: 'get'
     })
   },

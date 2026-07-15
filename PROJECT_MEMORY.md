@@ -6,6 +6,7 @@
 - The OneDrive copy is reference/archive or GitHub clone only; it is not the startup/runtime path.
 - Keep runtime outputs, dependency caches, `target`, `node_modules`, `.nuxt`, and local secrets out of Git.
 - Visible ShangyiTong / 114 logo and brand resources should be removed or replaced with neutral medical booking agent assets before public/cloud publication.
+- Branch policy: keep only `main` as the demo/showcase branch and `develop` as the active development branch. Merge feature work back into `develop` first, then promote stable demo-ready changes to `main`; avoid long-lived `codex/*` branches after their changes are merged.
 
 ## SSH / Cloud Notes
 
