@@ -79,11 +79,6 @@ MAIL_FROM_NAME="${YYGH_MAIL_FROM_NAME:-Jiangwenrui}"
 MAIL_SSL="${YYGH_MAIL_SSL:-true}"
 MAIL_STARTTLS="${YYGH_MAIL_STARTTLS:-false}"
 
-MYSQL_PASSWORD_ARGS=()
-if [[ -n "$MYSQL_PASSWORD" ]]; then
-  MYSQL_PASSWORD_ARGS=("--spring.datasource.password=$MYSQL_PASSWORD")
-fi
-
 MAIL_AUTH_USERNAME_ARGS=()
 if [[ -n "$MAIL_SMTP_AUTH_USERNAME" ]]; then
   MAIL_AUTH_USERNAME_ARGS=("--yygh.mail.auth-username=$MAIL_SMTP_AUTH_USERNAME")
@@ -93,8 +88,16 @@ mkdir -p "$LOG_DIR" "$PID_DIR"
 LOG_MAX_BYTES="${YYGH_SERVICE_LOG_MAX_BYTES:-10485760}"
 LOG_ROTATE_KEEP="${YYGH_SERVICE_LOG_ROTATE_KEEP:-3}"
 
-BACKEND_ROOT="$(find "$ROOT" -type d -name yygh_parent -print -quit)"
-FRONTEND_ROOT="$(find "$ROOT" -type d -name yygh-site -print -quit)"
+BACKEND_ROOT="$ROOT/backend/yygh_parent"
+FRONTEND_ROOT="$ROOT/frontend/yygh-site"
+
+if [[ ! -d "$BACKEND_ROOT" ]]; then
+  BACKEND_ROOT="$(find "$ROOT" -type d -name yygh_parent -print -quit)"
+fi
+
+if [[ ! -d "$FRONTEND_ROOT" ]]; then
+  FRONTEND_ROOT="$(find "$ROOT" -type d -name yygh-site -print -quit)"
+fi
 
 if [[ -z "$BACKEND_ROOT" ]]; then
   echo "[ERROR] Cannot find backend root directory: yygh_parent"
@@ -150,7 +153,7 @@ service_pid() {
   fi
   if [[ "$name" == "yygh-site" && -n "${FRONTEND_ROOT:-}" ]]; then
     local detected_pid
-    detected_pid="$(pgrep -f "$FRONTEND_ROOT/node_modules/(\\.bin/nuxt|nuxt/bin/nuxt.js) start" | head -n 1 || true)"
+    detected_pid="$(pgrep -f "node node_modules/nuxt/bin/nuxt\\.js start" | head -n 1 || true)"
     if [[ -n "$detected_pid" ]]; then
       echo "$detected_pid" >"$file"
       echo "$detected_pid"
@@ -166,6 +169,44 @@ service_pid() {
       echo "$detected_pid"
       return 0
     fi
+  fi
+  local detected_java_pid=""
+  case "$name" in
+    service-hosp)
+      detected_java_pid="$(pgrep -f "$BACKEND_ROOT/service/service_hosp/target/.*\\.jar" | head -n 1 || true)"
+      ;;
+    service-cmn)
+      detected_java_pid="$(pgrep -f "$BACKEND_ROOT/service/service_cmn/target/.*\\.jar" | head -n 1 || true)"
+      ;;
+    service-user)
+      detected_java_pid="$(pgrep -f "$BACKEND_ROOT/service/service_user/target/.*\\.jar" | head -n 1 || true)"
+      ;;
+    service-order)
+      detected_java_pid="$(pgrep -f "$BACKEND_ROOT/service/service_order/target/.*\\.jar" | head -n 1 || true)"
+      ;;
+    service-msm)
+      detected_java_pid="$(pgrep -f "$BACKEND_ROOT/service/service_msm/target/.*\\.jar" | head -n 1 || true)"
+      ;;
+    service-oss)
+      detected_java_pid="$(pgrep -f "$BACKEND_ROOT/service/service_oss/target/.*\\.jar" | head -n 1 || true)"
+      ;;
+    service-task)
+      detected_java_pid="$(pgrep -f "$BACKEND_ROOT/service/service_task/target/.*\\.jar" | head -n 1 || true)"
+      ;;
+    service-statistics)
+      detected_java_pid="$(pgrep -f "$BACKEND_ROOT/service/service_statistics/target/.*\\.jar" | head -n 1 || true)"
+      ;;
+    service-agent)
+      detected_java_pid="$(pgrep -f "$BACKEND_ROOT/service/service_agent/target/.*\\.jar" | head -n 1 || true)"
+      ;;
+    service-gateway)
+      detected_java_pid="$(pgrep -f "$BACKEND_ROOT/service_gateway/target/.*\\.jar" | head -n 1 || true)"
+      ;;
+  esac
+  if [[ -n "$detected_java_pid" ]]; then
+    echo "$detected_java_pid" >"$file"
+    echo "$detected_java_pid"
+    return 0
   fi
   return 1
 }
@@ -224,7 +265,7 @@ start_java_service() {
   prepare_service_logs "$name"
   (
     cd "$workdir"
-    nohup java -jar "$jar" "$@" >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
+    setsid env SPRING_DATASOURCE_PASSWORD="$MYSQL_PASSWORD" java -jar "$jar" "$@" >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" < /dev/null &
     echo $! >"$(pid_file "$name")"
   )
   echo "Started $name (PID $(cat "$(pid_file "$name")"))"
@@ -241,7 +282,7 @@ start_npm_service() {
   (
     cd "$FRONTEND_ROOT"
     NODE_OPTIONS=--openssl-legacy-provider npm run build
-    nohup env NODE_OPTIONS=--openssl-legacy-provider HOST=127.0.0.1 PORT=3000 NUXT_HOST=127.0.0.1 NUXT_PORT=3000 node node_modules/nuxt/bin/nuxt.js start >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
+    setsid env NODE_OPTIONS=--openssl-legacy-provider HOST=127.0.0.1 PORT=3000 NUXT_HOST=127.0.0.1 NUXT_PORT=3000 node node_modules/nuxt/bin/nuxt.js start >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" < /dev/null &
     echo $! >"$(pid_file "$name")"
   )
   echo "Started $name (PID $(cat "$(pid_file "$name")"))"
@@ -266,7 +307,7 @@ start_langgraph_service() {
   prepare_service_logs "$name"
   (
     cd "$workdir"
-    nohup env \
+    setsid env \
       DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
       DEEPSEEK_BASE_URL="${DEEPSEEK_BASE_URL:-https://api.deepseek.com}" \
       DEEPSEEK_MODEL="${DEEPSEEK_MODEL:-deepseek-v4-pro}" \
@@ -274,7 +315,7 @@ start_langgraph_service() {
       PGVECTOR_DSN="${PGVECTOR_DSN:-}" \
       YYGH_AGENT_INTERNAL_SECRET="${YYGH_AGENT_INTERNAL_SECRET:-local-dev-agent-secret}" \
       python3 -m uvicorn app.main:app --host 127.0.0.1 --port "$port" \
-      >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" &
+      >"$LOG_DIR/$name.out.log" 2>"$LOG_DIR/$name.err.log" < /dev/null &
     echo $! >"$(pid_file "$name")"
   )
   echo "Started $name (PID $(cat "$(pid_file "$name")"))"
@@ -286,7 +327,6 @@ start_all() {
   start_java_service service-hosp "$BACKEND_ROOT/service/service_hosp" 'service-hosp*.jar' \
     '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai' \
     "--spring.datasource.username=$MYSQL_USERNAME" \
-    "${MYSQL_PASSWORD_ARGS[@]}" \
     '--spring.data.mongodb.uri=mongodb://127.0.0.1:27017/yygh_hosp' \
     '--spring.data.mongodb.auto-index-creation=false' \
     '--spring.rabbitmq.host=127.0.0.1' \
@@ -295,21 +335,18 @@ start_all() {
   start_java_service service-cmn "$BACKEND_ROOT/service/service_cmn" '*.jar' \
     '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_cmn?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai' \
     "--spring.datasource.username=$MYSQL_USERNAME" \
-    "${MYSQL_PASSWORD_ARGS[@]}" \
     '--spring.rabbitmq.host=127.0.0.1' \
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848'
 
   start_java_service service-user "$BACKEND_ROOT/service/service_user" '*.jar' \
     '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_user?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai' \
     "--spring.datasource.username=$MYSQL_USERNAME" \
-    "${MYSQL_PASSWORD_ARGS[@]}" \
     '--spring.rabbitmq.host=127.0.0.1' \
     '--spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848'
 
   start_java_service service-order "$BACKEND_ROOT/service/service_order" '*.jar' \
     '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_order?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai' \
     "--spring.datasource.username=$MYSQL_USERNAME" \
-    "${MYSQL_PASSWORD_ARGS[@]}" \
     '--spring.data.mongodb.uri=mongodb://127.0.0.1:27017/yygh_hosp' \
     '--spring.data.mongodb.auto-index-creation=false' \
     '--spring.rabbitmq.host=127.0.0.1' \

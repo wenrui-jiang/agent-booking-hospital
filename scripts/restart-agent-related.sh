@@ -41,16 +41,46 @@ if [[ -z "$MYSQL_PASSWORD" ]]; then
   exit 1
 fi
 
+BACKEND_ROOT="$ROOT/backend/yygh_parent"
+FRONTEND_ROOT="$ROOT/frontend/yygh-site"
+
+if [[ ! -d "$BACKEND_ROOT" ]]; then
+  BACKEND_ROOT="$(find "$ROOT" -type d -name yygh_parent -print -quit)"
+fi
+
+if [[ ! -d "$FRONTEND_ROOT" ]]; then
+  FRONTEND_ROOT="$(find "$ROOT" -type d -name yygh-site -print -quit)"
+fi
+
+if [[ -z "$BACKEND_ROOT" || -z "$FRONTEND_ROOT" ]]; then
+  echo "[ERROR] Cannot find backend or frontend root." >&2
+  exit 1
+fi
+
 stop_one() {
   local name="$1"
   local file="$PID_DIR/$name.pid"
+  local pid=""
   if [[ ! -f "$file" ]]; then
-    echo "$name has no pid file"
-    return
+    case "$name" in
+      service-agent)
+        pid="$(pgrep -f "$BACKEND_ROOT/service/service_agent/target/.*\\.jar" | head -n 1 || true)"
+        ;;
+      agent-langgraph)
+        pid="$(pgrep -f "uvicorn app.main:app .*--port ${YYGH_LANGGRAPH_PORT:-8212}" | head -n 1 || true)"
+        ;;
+      yygh-site)
+        pid="$(pgrep -f "node node_modules/nuxt/bin/nuxt\\.js start" | head -n 1 || true)"
+        ;;
+    esac
+    if [[ -z "$pid" ]]; then
+      echo "$name has no pid file"
+      return
+    fi
+  else
+    pid="$(cat "$file")"
   fi
 
-  local pid
-  pid="$(cat "$file")"
   if kill -0 "$pid" >/dev/null 2>&1; then
     pkill -TERM -P "$pid" >/dev/null 2>&1 || true
     kill "$pid" >/dev/null 2>&1 || true
@@ -67,13 +97,23 @@ jar_for() {
   find "$workdir" -type f -name '*.jar' ! -path '*/original/*' -print | head -n 1
 }
 
-BACKEND_ROOT="$(find "$ROOT" -type d -name yygh_parent -print -quit)"
-FRONTEND_ROOT="$(find "$ROOT" -type d -name yygh-site -print -quit)"
-
-if [[ -z "$BACKEND_ROOT" || -z "$FRONTEND_ROOT" ]]; then
-  echo "[ERROR] Cannot find backend or frontend root." >&2
-  exit 1
-fi
+wait_http() {
+  local name="$1"
+  local url="$2"
+  local timeout_seconds="${3:-60}"
+  local deadline=$((SECONDS + timeout_seconds))
+  local status=""
+  while [[ "$SECONDS" -lt "$deadline" ]]; do
+    status="$(curl -s -o /dev/null -w "%{http_code}" "$url" || true)"
+    if [[ "$status" != "000" ]]; then
+      echo "$name ready ($status)"
+      return 0
+    fi
+    sleep 2
+  done
+  echo "[ERROR] $name did not become reachable at $url" >&2
+  return 1
+}
 
 stop_one service-agent
 stop_one agent-langgraph
@@ -88,7 +128,7 @@ fi
 (
   cd "$ROOT/agent-langgraph"
   LANGGRAPH_PORT="${YYGH_LANGGRAPH_PORT:-8212}"
-  nohup env \
+  setsid env \
     DEEPSEEK_API_KEY="${DEEPSEEK_API_KEY:-}" \
     DEEPSEEK_BASE_URL="${DEEPSEEK_BASE_URL:-https://api.deepseek.com}" \
     DEEPSEEK_MODEL="${DEEPSEEK_MODEL:-deepseek-v4-pro}" \
@@ -96,14 +136,14 @@ fi
     PGVECTOR_DSN="${PGVECTOR_DSN:-}" \
     YYGH_AGENT_INTERNAL_SECRET="${YYGH_AGENT_INTERNAL_SECRET:-local-dev-agent-secret}" \
     python3 -m uvicorn app.main:app --host 127.0.0.1 --port "$LANGGRAPH_PORT" \
-    >"$LOG_DIR/agent-langgraph.out.log" 2>"$LOG_DIR/agent-langgraph.err.log" &
+    >"$LOG_DIR/agent-langgraph.out.log" 2>"$LOG_DIR/agent-langgraph.err.log" < /dev/null &
   echo $! >"$PID_DIR/agent-langgraph.pid"
 )
 echo "Started agent-langgraph (PID $(cat "$PID_DIR/agent-langgraph.pid"))"
 
 (
   cd "$BACKEND_ROOT/service/service_agent"
-  nohup env \
+  setsid env \
     YYGH_MYSQL_PASSWORD="$MYSQL_PASSWORD" \
     YYGH_LANGGRAPH_ENABLED="${YYGH_LANGGRAPH_ENABLED:-true}" \
     YYGH_LANGGRAPH_BASE_URL="${YYGH_LANGGRAPH_BASE_URL:-http://127.0.0.1:8212}" \
@@ -112,22 +152,25 @@ echo "Started agent-langgraph (PID $(cat "$PID_DIR/agent-langgraph.pid"))"
     DEEPSEEK_MODEL="${DEEPSEEK_MODEL:-deepseek-v4-pro}" \
     java -jar "$AGENT_JAR" \
     --spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848 \
-    >"$LOG_DIR/service-agent.out.log" 2>"$LOG_DIR/service-agent.err.log" &
+    >"$LOG_DIR/service-agent.out.log" 2>"$LOG_DIR/service-agent.err.log" < /dev/null &
   echo $! >"$PID_DIR/service-agent.pid"
 )
 echo "Started service-agent (PID $(cat "$PID_DIR/service-agent.pid"))"
 
 (
   cd "$FRONTEND_ROOT"
-  nohup env NODE_OPTIONS=--openssl-legacy-provider HOST=127.0.0.1 PORT=3000 NUXT_HOST=127.0.0.1 NUXT_PORT=3000 \
+  setsid env NODE_OPTIONS=--openssl-legacy-provider HOST=127.0.0.1 PORT=3000 NUXT_HOST=127.0.0.1 NUXT_PORT=3000 \
     node node_modules/nuxt/bin/nuxt.js start \
-    >"$LOG_DIR/yygh-site.out.log" 2>"$LOG_DIR/yygh-site.err.log" &
+    >"$LOG_DIR/yygh-site.out.log" 2>"$LOG_DIR/yygh-site.err.log" < /dev/null &
   echo $! >"$PID_DIR/yygh-site.pid"
 )
 echo "Started yygh-site (PID $(cat "$PID_DIR/yygh-site.pid"))"
 
-sleep 8
-for name in service-agent yygh-site; do
+wait_http agent-langgraph "http://127.0.0.1:${YYGH_LANGGRAPH_PORT:-8212}/health" 30
+wait_http service-agent "http://127.0.0.1:8210/api/agent/sessions" 90
+wait_http yygh-site "http://127.0.0.1:3000/" 60
+
+for name in agent-langgraph service-agent yygh-site; do
   pid="$(cat "$PID_DIR/$name.pid")"
   if kill -0 "$pid" >/dev/null 2>&1; then
     echo "$name running (PID $pid)"
@@ -136,6 +179,3 @@ for name in service-agent yygh-site; do
     exit 1
   fi
 done
-
-curl -s -o /dev/null -w "service-agent:%{http_code}\n" http://127.0.0.1:8210/api/agent/sessions || true
-curl -s -o /dev/null -w "yygh-site:%{http_code}\n" http://127.0.0.1:3000/ || true

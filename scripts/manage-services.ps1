@@ -15,10 +15,17 @@ New-Item -ItemType Directory -Force -Path $logDir | Out-Null
 New-Item -ItemType Directory -Force -Path $pidDir | Out-Null
 New-Item -ItemType Directory -Force -Path $commandDir | Out-Null
 
-$backendRoot = Get-ChildItem -Path $root -Recurse -Directory -Filter 'yygh_parent' |
-    Select-Object -First 1 -ExpandProperty FullName
-$frontendRoot = Get-ChildItem -Path $root -Recurse -Directory -Filter 'yygh-site' |
-    Select-Object -First 1 -ExpandProperty FullName
+$backendRoot = Join-Path $root 'backend\yygh_parent'
+$frontendRoot = Join-Path $root 'frontend\yygh-site'
+
+if (-not (Test-Path $backendRoot)) {
+    $backendRoot = Get-ChildItem -Path $root -Recurse -Directory -Filter 'yygh_parent' |
+        Select-Object -First 1 -ExpandProperty FullName
+}
+if (-not (Test-Path $frontendRoot)) {
+    $frontendRoot = Get-ChildItem -Path $root -Recurse -Directory -Filter 'yygh-site' |
+        Select-Object -First 1 -ExpandProperty FullName
+}
 
 if (-not $backendRoot) {
     throw 'Cannot find backend root directory: yygh_parent'
@@ -113,7 +120,6 @@ $services = @(
             '__JAR__'
             '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_hosp?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai'
             "--spring.datasource.username=$mysqlUsername"
-            "--spring.datasource.password=$mysqlPassword"
             '--spring.data.mongodb.uri=mongodb://127.0.0.1:27017/yygh_hosp'
             '--spring.data.mongodb.auto-index-creation=false'
             '--spring.rabbitmq.host=127.0.0.1'
@@ -131,7 +137,6 @@ $services = @(
             '__JAR__'
             '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_cmn?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai'
             "--spring.datasource.username=$mysqlUsername"
-            "--spring.datasource.password=$mysqlPassword"
             '--spring.data.mongodb.uri=mongodb://127.0.0.1:27017/yygh_hosp'
             '--spring.data.mongodb.auto-index-creation=false'
             '--spring.rabbitmq.host=127.0.0.1'
@@ -149,7 +154,6 @@ $services = @(
             '__JAR__'
             '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_user?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai'
             "--spring.datasource.username=$mysqlUsername"
-            "--spring.datasource.password=$mysqlPassword"
             '--spring.redis.host=127.0.0.1'
             '--spring.redis.port=6379'
             '--spring.rabbitmq.host=127.0.0.1'
@@ -167,7 +171,6 @@ $services = @(
             '__JAR__'
             '--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/yygh_order?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai'
             "--spring.datasource.username=$mysqlUsername"
-            "--spring.datasource.password=$mysqlPassword"
             '--spring.data.mongodb.uri=mongodb://127.0.0.1:27017/yygh_hosp'
             '--spring.data.mongodb.auto-index-creation=false'
             '--spring.rabbitmq.host=127.0.0.1'
@@ -587,6 +590,12 @@ function Start-OneService {
             $jar = Resolve-ServiceJar -Service $Service
             if (-not $jar) {
                 throw "Cannot find jar for $($Service.Name) under $($Service.WorkingDirectory). Build it first."
+            }
+            if (-not $Service.Environment) {
+                $Service.Environment = @{}
+            }
+            if ($mysqlPassword) {
+                $Service.Environment.SPRING_DATASOURCE_PASSWORD = $mysqlPassword
             }
             $argumentList = @($Service.Arguments |
                 Where-Object { $_ -notmatch '=$' } |

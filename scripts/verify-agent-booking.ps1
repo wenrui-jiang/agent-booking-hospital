@@ -5,8 +5,11 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
-$backendRoot = Get-ChildItem -Path $root -Recurse -Directory -Filter 'yygh_parent' |
-    Select-Object -First 1 -ExpandProperty FullName
+$backendRoot = Join-Path $root 'backend\yygh_parent'
+if (-not (Test-Path $backendRoot)) {
+    $backendRoot = Get-ChildItem -Path $root -Recurse -Directory -Filter 'yygh_parent' |
+        Select-Object -First 1 -ExpandProperty FullName
+}
 if (-not $backendRoot) {
     throw 'Cannot find backend root directory: yygh_parent'
 }
